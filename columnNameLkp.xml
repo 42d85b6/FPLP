@@ -1,0 +1,2673 @@
+
+<root>
+<TCMS2_Publish_Ticket.MessageHeader.stamp>
+  <columnName>ts</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>stamp</longColumnName>
+</TCMS2_Publish_Ticket.MessageHeader.stamp>
+<TCMS2_Publish_Ticket.MessageHeader.targetType>
+  <columnName>tt</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>targetType</longColumnName>
+</TCMS2_Publish_Ticket.MessageHeader.targetType>
+<TCMS2_Publish_Ticket.MessageData.assignmentRestriction>
+  <columnName>ar</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>assignmentRestriction</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.assignmentRestriction>
+<TCMS2_Publish_Ticket.MessageData.causeCode.identifier>
+  <columnName>cc</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>identifier</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.causeCode.identifier>
+<TCMS2_Publish_Ticket.MessageData.city>
+  <columnName>cty</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>city</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.city>
+<TCMS2_Publish_Ticket.MessageData.claims>
+  <columnName>clm</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>claims</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.claims>
+<TCMS2_Publish_Ticket.MessageData.comment>
+  <columnName>cmt</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>comment</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.comment>
+<TCMS2_Publish_Ticket.MessageData.confidenceLevel>
+  <columnName>cl</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>confidenceLevel</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.confidenceLevel>
+<TCMS2_Publish_Ticket.MessageData.defaultServiceCenter.identifier>
+  <columnName>dsci</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>identifier</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.defaultServiceCenter.identifier>
+<TCMS2_Publish_Ticket.MessageData.device.fplId>
+  <columnName>d_id</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>fplId</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.device.fplId>
+<TCMS2_Publish_Ticket.MessageData.device.actualDeviceType>
+  <columnName>d_adt</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>actualDeviceType</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.device.actualDeviceType>
+<TCMS2_Publish_Ticket.MessageData.device.ddbKey>
+  <columnName>d_dk</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>ddbKey</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.device.ddbKey>
+<TCMS2_Publish_Ticket.MessageData.device.troubleCoordinateX>
+  <columnName>d_tcx</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>troubleCoordinateX</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.device.troubleCoordinateX>
+<TCMS2_Publish_Ticket.MessageData.device.troubleCoordinateY>
+  <columnName>d_tcy</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>troubleCoordinateY</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.device.troubleCoordinateY>
+<TCMS2_Publish_Ticket.MessageData.device.childDevices.deviceId>
+  <columnName>d_cdi</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>deviceId</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.device.childDevices.deviceId>
+<TCMS2_Publish_Ticket.MessageData.device.previousProtectiveDeviceStack.deviceId>
+  <columnName>d_ppds</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>deviceId</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.device.previousProtectiveDeviceStack.deviceId>
+<TCMS2_Publish_Ticket.MessageData.elevatedPriorityDateTime>
+  <columnName>epdt</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>elevatedPriorityDateTime</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.elevatedPriorityDateTime>
+<TCMS2_Publish_Ticket.MessageData.elevatedPriorityETA>
+  <columnName>epeta</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>elevatedPriorityETA</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.elevatedPriorityETA>
+<TCMS2_Publish_Ticket.MessageData.engr>
+  <columnName>eng</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>engr</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.engr>
+<TCMS2_Publish_Ticket.MessageData.equipmentType.code>
+  <columnName>etc</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>code</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.equipmentType.code>
+<TCMS2_Publish_Ticket.MessageData.er96JobNumber>
+  <columnName>er96jn</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>er96JobNumber</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.er96JobNumber>
+<TCMS2_Publish_Ticket.MessageData.er96JobQueue>
+  <columnName>er96jq</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>er96JobQueue</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.er96JobQueue>
+<TCMS2_Publish_Ticket.MessageData.er96ommsys>
+  <columnName>er96o</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>er96ommsys</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.er96ommsys>
+<TCMS2_Publish_Ticket.MessageData.excludeFfa>
+  <columnName>ef</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>excludeFfa</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.excludeFfa>
+<TCMS2_Publish_Ticket.MessageData.firstCallId>
+  <columnName>fcid</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>firstCallId</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.firstCallId>
+<TCMS2_Publish_Ticket.MessageData.foundAddress>
+  <columnName>fa</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>foundAddress</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.foundAddress>
+<TCMS2_Publish_Ticket.MessageData.fplWireDown>
+  <columnName>fwd</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>fplWireDown</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.fplWireDown>
+<TCMS2_Publish_Ticket.MessageData.geoReturnCode>
+  <columnName>grc</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>geoReturnCode</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.geoReturnCode>
+<TCMS2_Publish_Ticket.MessageData.interruptionCategory>
+  <columnName>ic</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>interruptionCategory</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.interruptionCategory>
+<TCMS2_Publish_Ticket.MessageData.interruptionType.code>
+  <columnName>it</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>interruptionType</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.interruptionType.code>
+<TCMS2_Publish_Ticket.MessageData.minutesInvisible>
+  <columnName>mi</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>minutesInvisible</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.minutesInvisible>
+<TCMS2_Publish_Ticket.MessageData.nextStep.code>
+  <columnName>ns</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>code</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.nextStep.code>
+<TCMS2_Publish_Ticket.MessageData.number>
+  <columnName>num</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>number</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.number>
+<TCMS2_Publish_Ticket.MessageData.numberOfAffectedCustomers>
+  <columnName>nac</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>numberOfAffectedCustomers</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.numberOfAffectedCustomers>
+<TCMS2_Publish_Ticket.MessageData.optimizationZone>
+  <columnName>oz</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>optimizationZone</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.optimizationZone>
+<TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMItrEtrEntry.TMItrEtrEntry.componentId>
+  <columnName>ie_id_cid</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>componentId</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMItrEtrEntry.TMItrEtrEntry.componentId>
+<TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMItrEtrEntry.TMItrEtrEntry.creationTimestamp>
+  <columnName>ie_id_cts</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>creationTimestamp</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMItrEtrEntry.TMItrEtrEntry.creationTimestamp>
+<TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMItrEtrEntry.TMItrEtrEntry.deviceType>
+  <columnName>ie_id_dt</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>deviceType</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMItrEtrEntry.TMItrEtrEntry.deviceType>
+<TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMItrEtrEntry.TMItrEtrEntry.itrFlag>
+  <columnName>ie_id_if</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>itrFlag</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMItrEtrEntry.TMItrEtrEntry.itrFlag>
+<TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMItrEtrEntry.TMItrEtrEntry.restorationTimestamp>
+  <columnName>ie_id_rts</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>restorationTimestamp</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMItrEtrEntry.TMItrEtrEntry.restorationTimestamp>
+<TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMItrEtrEntry.TMItrEtrEntry.stormMode>
+  <columnName>ie_id_sm</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>stormMode</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMItrEtrEntry.TMItrEtrEntry.stormMode>
+<TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMPartOn.TMPartOn.componentId>
+  <columnName>po_id_cid</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>componentId</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMPartOn.TMPartOn.componentId>
+<TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMPartOn.TMPartOn.percentComplete>
+  <columnName>po_id_pc</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>percentComplete</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMPartOn.TMPartOn.percentComplete>
+<TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMPartOn.TMPartOn.percentCompleteDate>
+  <columnName>po_id_pd</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>percentCompleteDate</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMPartOn.TMPartOn.percentCompleteDate>
+<TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMPartOn.TMPartOn.percentCompleteDateEntered>
+  <columnName>po_id_pe</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>percentCompleteDateEntered</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMPartOn.TMPartOn.percentCompleteDateEntered>
+<TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMPartOn.TMPartOn.percentCompleteDispatcherId>
+  <columnName>po_id_pdid</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>percentCompleteDispatcherId</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.OrderedCollectionOfTMPartOn.TMPartOn.percentCompleteDispatcherId>
+<TCMS2_Publish_Ticket.MessageData.partOfTicket.targetId>
+  <columnName>potid</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>targetId</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.partOfTicket.targetId>
+<TCMS2_Publish_Ticket.MessageData.powerOffTime>
+  <columnName>pot</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>powerOffTime</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.powerOffTime>
+<TCMS2_Publish_Ticket.MessageData.priorityForDisplay>
+  <columnName>pfd</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>priorityForDisplay</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.priorityForDisplay>
+<TCMS2_Publish_Ticket.MessageData.reasonCode>
+  <columnName>rc</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>reasonCode</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.reasonCode>
+<TCMS2_Publish_Ticket.MessageData.relatedWorkOrderDCWT>
+  <columnName>rwod</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>relatedWorkOrderDCWT</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.relatedWorkOrderDCWT>
+<TCMS2_Publish_Ticket.MessageData.relatedWorkOrderEJ>
+  <columnName>rwoe</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>relatedWorkOrderEJ</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.relatedWorkOrderEJ>
+<TCMS2_Publish_Ticket.MessageData.relatedWorkOrderNTO>
+  <columnName>rwon</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>relatedWorkOrderNTO</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.relatedWorkOrderNTO>
+<TCMS2_Publish_Ticket.MessageData.relatedWorkOrderNTOCompleted>
+  <columnName>rwonc</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>relatedWorkOrderNTOCompleted</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.relatedWorkOrderNTOCompleted>
+<TCMS2_Publish_Ticket.MessageData.relatedWorkOrderPDR>
+  <columnName>rwop</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>relatedWorkOrderPDR</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.relatedWorkOrderPDR>
+<TCMS2_Publish_Ticket.MessageData.relatedWorkOrderSIO>
+  <columnName>rwos</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>relatedWorkOrderSIO</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.relatedWorkOrderSIO>
+<TCMS2_Publish_Ticket.MessageData.relatedWorkOrderTWA>
+  <columnName>rwot</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>relatedWorkOrderTWA</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.relatedWorkOrderTWA>
+<TCMS2_Publish_Ticket.MessageData.relatedWorkOrderWT>
+  <columnName>rwow</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>relatedWorkOrderWT</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.relatedWorkOrderWT>
+<TCMS2_Publish_Ticket.MessageData.restoreTime>
+  <columnName>rt</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>restoreTime</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.restoreTime>
+<TCMS2_Publish_Ticket.MessageData.scltaConverted>
+  <columnName>sconv</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>scltaConverted</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.scltaConverted>
+<TCMS2_Publish_Ticket.MessageData.scltaCreated>
+  <columnName>scrt</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>scltaCreated</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.scltaCreated>
+<TCMS2_Publish_Ticket.MessageData.searchedAddress>
+  <columnName>sa</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>searchedAddress</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.searchedAddress>
+<TCMS2_Publish_Ticket.MessageData.searchedType>
+  <columnName>st</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>searchedType</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.searchedType>
+<TCMS2_Publish_Ticket.MessageData.sourceOfUpdate>
+  <columnName>sou</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>sourceOfUpdate</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.sourceOfUpdate>
+<TCMS2_Publish_Ticket.MessageData.supportCode.code>
+  <columnName>sc</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>code</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.supportCode.code>
+<TCMS2_Publish_Ticket.MessageData.ticketAddress>
+  <columnName>ta</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>ticketAddress</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.ticketAddress>
+<TCMS2_Publish_Ticket.MessageData.ticketStatus>
+  <columnName>stat</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>ticketStatus</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.ticketStatus>
+<TCMS2_Publish_Ticket.MessageData.ticketType>
+  <columnName>typ</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>ticketType</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.ticketType>
+<TCMS2_Publish_Ticket.MessageData.time>
+  <columnName>tm</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>time</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.time>
+<TCMS2_Publish_Ticket.MessageData.tlmError>
+  <columnName>te</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>tlmError</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.tlmError>
+<TCMS2_Publish_Ticket.MessageData.upr>
+  <columnName>up</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>upr</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.upr>
+<TCMS2_Publish_Ticket.MessageData.visibleDateTime>
+  <columnName>vd</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>visibleDateTime</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.visibleDateTime>
+<TCMS2_Publish_Ticket.MessageData.vmAllocationTime>
+  <columnName>valt</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>vmAllocationTime</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.vmAllocationTime>
+<TCMS2_Publish_Ticket.MessageData.vmAllocationTimeEntered>
+  <columnName>valte</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>vmAllocationTimeEntered</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.vmAllocationTimeEntered>
+<TCMS2_Publish_Ticket.MessageData.vmArrivalTime>
+  <columnName>vart</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>vmArrivalTime</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.vmArrivalTime>
+<TCMS2_Publish_Ticket.MessageData.vmArrivalTimeEntered>
+  <columnName>varte</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>vmArrivalTimeEntered</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.vmArrivalTimeEntered>
+<TCMS2_Publish_Ticket.MessageData.vmAssignTime>
+  <columnName>vast</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>vmAssignTime</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.vmAssignTime>
+<TCMS2_Publish_Ticket.MessageData.vmAssignTimeEntered>
+  <columnName>vaste</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>vmAssignTimeEntered</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.vmAssignTimeEntered>
+<TCMS2_Publish_Ticket.MessageData.vmCompletionTime>
+  <columnName>vct</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>vmCompletionTime</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.vmCompletionTime>
+<TCMS2_Publish_Ticket.MessageData.vmCompletionTimeEntered>
+  <columnName>vcte</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>vmCompletionTimeEntered</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.vmCompletionTimeEntered>
+<TCMS2_Publish_Ticket.MessageData.vmCrew>
+  <columnName>vc</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>vmCrew</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.vmCrew>
+<TCMS2_Publish_Ticket.MessageData.vmEtcTime>
+  <columnName>vet</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>vmEtcTime</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.vmEtcTime>
+<TCMS2_Publish_Ticket.MessageData.vmEtcTimeEntered>
+  <columnName>vete</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>vmEtcTimeEntered</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.vmEtcTimeEntered>
+<TCMS2_Publish_Ticket.MessageData.weatherFlags.weatherFlag>
+  <columnName>wf</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>weatherFlag</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.weatherFlags.weatherFlag>
+<TCMS2_Publish_Ticket.MessageData.wireDownCorrectiveAction>
+  <columnName>wdca</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>wireDownCorrectiveAction</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.wireDownCorrectiveAction>
+<TCMS2_Publish_Ticket.MessageData.wireDownFlagLeft>
+  <columnName>wdfl</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>wireDownFlagLeft</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.wireDownFlagLeft>
+<TCMS2_Publish_Ticket.MessageData.wireOwner>
+  <columnName>wo</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>wireOwner</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.wireOwner>
+<TCMS2_Publish_Ticket.MessageData.wireType>
+  <columnName>wt</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>wireType</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.wireType>
+<TCMS2_Publish_Ticket.MessageData.xCoordinate>
+  <columnName>xc</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>xCoordinate</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.xCoordinate>
+<TCMS2_Publish_Ticket.MessageData.yCoordinate>
+  <columnName>yc</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>yCoordinate</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.yCoordinate>
+<TCMS2_Publish_Ticket.MessageData.zipCode>
+  <columnName>zc</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>zipCode</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.zipCode>
+<TCMS2_Publish_Ticket_Event_Log_Entry.MessageHeader.stamp>
+  <columnName>id_ts</columnName>
+  <columnFamily>e</columnFamily>
+  <longColumnName>stamp</longColumnName>
+</TCMS2_Publish_Ticket_Event_Log_Entry.MessageHeader.stamp>
+<TCMS2_Publish_Ticket_Event_Log_Entry.MessageHeader.targetType>
+  <columnName>id_tt</columnName>
+  <columnFamily>e</columnFamily>
+  <longColumnName>targetType</longColumnName>
+</TCMS2_Publish_Ticket_Event_Log_Entry.MessageHeader.targetType>
+<TCMS2_Publish_Ticket_Event_Log_Entry.MessageData.at>
+  <columnName>id_at</columnName>
+  <columnFamily>e</columnFamily>
+  <longColumnName>at</longColumnName>
+</TCMS2_Publish_Ticket_Event_Log_Entry.MessageData.at>
+<TCMS2_Publish_Ticket_Event_Log_Entry.MessageData.by>
+  <columnName>id_by</columnName>
+  <columnFamily>e</columnFamily>
+  <longColumnName>by</longColumnName>
+</TCMS2_Publish_Ticket_Event_Log_Entry.MessageData.by>
+<TCMS2_Publish_Ticket_Event_Log_Entry.MessageData.description>
+  <columnName>id_ds</columnName>
+  <columnFamily>e</columnFamily>
+  <longColumnName>description</longColumnName>
+</TCMS2_Publish_Ticket_Event_Log_Entry.MessageData.description>
+<TCMS2_Publish_Ticket_Event_Log_Entry.MessageData.eventKey>
+  <columnName>id_ek</columnName>
+  <columnFamily>e</columnFamily>
+  <longColumnName>eventKey</longColumnName>
+</TCMS2_Publish_Ticket_Event_Log_Entry.MessageData.eventKey>
+<TCMS2_Publish_Work_Request.MessageHeader.stamp>
+  <columnName>id_ts</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>stamp</longColumnName>
+</TCMS2_Publish_Work_Request.MessageHeader.stamp>
+<TCMS2_Publish_Work_Request.MessageHeader.targetType>
+  <columnName>id_tt</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>targetType</longColumnName>
+</TCMS2_Publish_Work_Request.MessageHeader.targetType>
+<TCMS2_Publish_Work_Request.MessageData.arrivalTime>
+  <columnName>id_at</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>arrivalTime</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.arrivalTime>
+<TCMS2_Publish_Work_Request.MessageData.assignComment>
+  <columnName>id_ac</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>assignComment</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.assignComment>
+<TCMS2_Publish_Work_Request.MessageData.assignmentRestriction>
+  <columnName>id_ar</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>assignmentRestriction</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.assignmentRestriction>
+<TCMS2_Publish_Work_Request.MessageData.completeComment>
+  <columnName>id_cc</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>completeComment</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.completeComment>
+<TCMS2_Publish_Work_Request.MessageData.completionTime>
+  <columnName>id_ct</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>completionTime</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.completionTime>
+<TCMS2_Publish_Work_Request.MessageData.crewId>
+  <columnName>id_ci</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>crewId</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.crewId>
+<TCMS2_Publish_Work_Request.MessageData.dispatchCenterIdentifier>
+  <columnName>id_dci</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>dispatchCenterIdentifier</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.dispatchCenterIdentifier>
+<TCMS2_Publish_Work_Request.MessageData.dispatcherIdentifier>
+  <columnName>id_di</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>dispatcherIdentifier</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.dispatcherIdentifier>
+<TCMS2_Publish_Work_Request.MessageData.dispatchPositionIdentifier>
+  <columnName>id_dpi</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>dispatchPositionIdentifier</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.dispatchPositionIdentifier>
+<TCMS2_Publish_Work_Request.MessageData.enrouteTime>
+  <columnName>id_et</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>enrouteTime</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.enrouteTime>
+<TCMS2_Publish_Work_Request.MessageData.estimatedRestorationTime>
+  <columnName>id_ert</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>estimatedRestorationTime</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.estimatedRestorationTime>
+<TCMS2_Publish_Work_Request.MessageData.excludeFfa>
+  <columnName>id_ef</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>excludeFfa</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.excludeFfa>
+<TCMS2_Publish_Work_Request.MessageData.lockedAssignment>
+  <columnName>id_la</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>lockedAssignment</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.lockedAssignment>
+<TCMS2_Publish_Work_Request.MessageData.prevWR>
+  <columnName>id_pw</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>prevWR</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.prevWR>
+<TCMS2_Publish_Work_Request.MessageData.requestor.identifier>
+  <columnName>id_rq</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>identifier</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.requestor.identifier>
+<TCMS2_Publish_Work_Request.MessageData.restoredTime>
+  <columnName>id_rt</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>restoredTime</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.restoredTime>
+<TCMS2_Publish_Work_Request.MessageData.site.identifier>
+  <columnName>id_st</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>identifier</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.site.identifier>
+<TCMS2_Publish_Work_Request.MessageData.sourceOfUpdate>
+  <columnName>id_sou</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>sourceOfUpdate</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.sourceOfUpdate>
+<TCMS2_Publish_Work_Request.MessageData.ticketStatus>
+  <columnName>id_stat</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>ticketStatus</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.ticketStatus>
+<TCMS2_Publish_Work_Request.MessageData.time>
+  <columnName>id_tm</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>time</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.time>
+<TCMS2_Publish_Work_Request.MessageData.truckNumber>
+  <columnName>id_tn</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>truckNumber</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.truckNumber>
+<TCMS2_Publish_Work_Request.MessageData.type>
+  <columnName>id_ty</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>type</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.type>
+<TCMS2_Publish_Repair_Action.MessageHeader.stamp>
+  <columnName>id_ts</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>stamp</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageHeader.stamp>
+<TCMS2_Publish_Repair_Action.MessageHeader.targetType>
+  <columnName>id_tt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>targetType</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageHeader.targetType>
+<TCMS2_Publish_Repair_Action.MessageData.accessible>
+  <columnName>id_ac</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>accessible</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.accessible>
+<TCMS2_Publish_Repair_Action.MessageData.auto>
+  <columnName>id_au</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>auto</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.auto>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.address>
+  <columnName>id_cp_ad</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>address</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.address>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.cableCategory>
+  <columnName>id_cp_cc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cableCategory</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.cableCategory>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.cableFailureDate>
+  <columnName>id_cp_cf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cableFailureDate</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.cableFailureDate>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.cableType.size>
+  <columnName>id_cp_ct</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>size</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.cableType.size>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.cfrComments>
+  <columnName>id_cp_cm</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cfrComments</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.cfrComments>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.feederNumber>
+  <columnName>id_cp_fn</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>feederNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.feederNumber>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.installationDate>
+  <columnName>id_cp_idt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>installationDate</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.installationDate>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.aFrom>
+  <columnName>id_cp_af</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>aFrom</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.aFrom>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.aLoopNumber>
+  <columnName>id_cp_aln</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>aLoopNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.aLoopNumber>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.aTo>
+  <columnName>id_cp_at</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>aTo</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.aTo>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.bFrom>
+  <columnName>id_cp_bf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>bFrom</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.bFrom>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.bLoopNumber>
+  <columnName>id_cp_bln</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>bLoopNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.bLoopNumber>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.bTo>
+  <columnName>id_cp_bt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>bTo</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.bTo>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.cFrom>
+  <columnName>id_cp_cf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cFrom</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.cFrom>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.cLoopNumber>
+  <columnName>id_cp_cln</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cLoopNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.cLoopNumber>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.cTo>
+  <columnName>id_cp_ct</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cTo</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.cTo>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.faultLocationDescription>
+  <columnName>id_cp_fl</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>faultLocationDescription</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.location.faultLocationDescription>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.manufacturer.size>
+  <columnName>id_cp_mf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>manufacturer</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.manufacturer.size>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.numberOfConductors>
+  <columnName>id_cp_nc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>numberOfConductors</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.numberOfConductors>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.numberOfPreviousFailures>
+  <columnName>id_cp_npf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>numberOfPreviousFailures</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.numberOfPreviousFailures>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.ppid>
+  <columnName>id_cp_pid</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>ppid</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.ppid>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.reliabilityInformation.failureCondition>
+  <columnName>id_cp_fc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>failureCondition</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.reliabilityInformation.failureCondition>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.reliabilityInformation.isRevault>
+  <columnName>id_cp_ir</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>isRevault</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.reliabilityInformation.isRevault>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.reliabilityInformation.isWetSoil>
+  <columnName>id_cp_iw</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>isWetSoil</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.reliabilityInformation.isWetSoil>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.reliabilityInformation.repairDate>
+  <columnName>id_cp_rd</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>repairDate</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.reliabilityInformation.repairDate>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.workInformation.manhours>
+  <columnName>id_cp_mh</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>manhours</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.workInformation.manhours>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.workInformation.upr>
+  <columnName>id_cp_up</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>upr</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.workInformation.upr>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.workInformation.woNumber>
+  <columnName>id_cp_won</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>woNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.workInformation.woNumber>
+<TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.yearMfg>
+  <columnName>id_cp_ym</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>yearMfg</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrPrimary.yearMfg>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.address>
+  <columnName>id_cs_ad</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>address</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.address>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.cableCategory>
+  <columnName>id_cs_cc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cableCategory</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.cableCategory>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.cableFailureDate>
+  <columnName>id_cs_cf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cableFailureDate</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.cableFailureDate>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.cableType.size>
+  <columnName>id_cs_ct</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>size</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.cableType.size>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.cfrComments>
+  <columnName>id_cs_cm</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cfrComments</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.cfrComments>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.feederNumber>
+  <columnName>id_cs_fn</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>feederNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.feederNumber>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.installationDate>
+  <columnName>id_cs_id</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>installationDate</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.installationDate>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.aFrom>
+  <columnName>id_cs_af</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>aFrom</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.aFrom>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.aLoopNumber>
+  <columnName>id_cs_aln</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>aLoopNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.aLoopNumber>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.aTo>
+  <columnName>id_cs_at</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>aTo</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.aTo>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.bFrom>
+  <columnName>id_cs_bf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>bFrom</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.bFrom>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.bLoopNumber>
+  <columnName>id_cs_bln</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>bLoopNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.bLoopNumber>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.bTo>
+  <columnName>id_cs_bt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>bTo</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.bTo>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.cFrom>
+  <columnName>id_cs_cf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cFrom</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.cFrom>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.cLoopNumber>
+  <columnName>id_cs_cln</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cLoopNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.cLoopNumber>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.cTo>
+  <columnName>id_cs_ct</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cTo</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.cTo>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.faultLocationDescription>
+  <columnName>id_cs_fl</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>faultLocationDescription</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.location.faultLocationDescription>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.manufacturer.size>
+  <columnName>id_cs_mf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>manufacturer</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.manufacturer.size>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.numberOfConductors>
+  <columnName>id_cs_nc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>numberOfConductors</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.numberOfConductors>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.numberOfPreviousFailures>
+  <columnName>id_cs_npf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>numberOfPreviousFailures</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.numberOfPreviousFailures>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.ppid>
+  <columnName>id_cs_pid</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>ppid</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.ppid>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.reliabilityInformation.failureCondition>
+  <columnName>id_cs_fc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>failureCondition</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.reliabilityInformation.failureCondition>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.reliabilityInformation.isRevault>
+  <columnName>id_cs_ir</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>isRevault</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.reliabilityInformation.isRevault>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.reliabilityInformation.isWetSoil>
+  <columnName>id_cs_iw</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>isWetSoil</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.reliabilityInformation.isWetSoil>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.reliabilityInformation.repairDate>
+  <columnName>id_cs_rd</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>repairDate</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.reliabilityInformation.repairDate>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.workInformation.manhours>
+  <columnName>id_cs_mh</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>manhours</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.workInformation.manhours>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.workInformation.upr>
+  <columnName>id_cs_up</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>upr</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.workInformation.upr>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.workInformation.woNumber>
+  <columnName>id_cs_won</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>woNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.workInformation.woNumber>
+<TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.yearMfg>
+  <columnName>id_cs_ym</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>yearMfg</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrSecondary.yearMfg>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.address>
+  <columnName>id_cv_ad</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>address</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.address>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.cableCategory>
+  <columnName>id_cv_cc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cableCategory</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.cableCategory>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.cableFailureDate>
+  <columnName>id_cv_cf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cableFailureDate</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.cableFailureDate>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.cableType.size>
+  <columnName>id_cv_ct</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>size</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.cableType.size>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.cfrComments>
+  <columnName>id_cv_cm</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cfrComments</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.cfrComments>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.feederNumber>
+  <columnName>id_cv_fn</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>feederNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.feederNumber>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.installationDate>
+  <columnName>id_cv_idt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>installationDate</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.installationDate>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.location.aFrom>
+  <columnName>id_cv_af</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>aFrom</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.location.aFrom>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.location.aLoopNumber>
+  <columnName>id_cv_aln</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>aLoopNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.location.aLoopNumber>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.location.aTo>
+  <columnName>id_cv_at</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>aTo</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.location.aTo>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.location.bFrom>
+  <columnName>id_cv_bf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>bFrom</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.location.bFrom>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.location.bLoopNumber>
+  <columnName>id_cv_bln</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>bLoopNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.location.bLoopNumber>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.location.bTo>
+  <columnName>id_cv_bt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>bTo</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.location.bTo>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.location.cFrom>
+  <columnName>id_cv_cf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cFrom</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.location.cFrom>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.location.cLoopNumber>
+  <columnName>id_cv_cln</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cLoopNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.location.cLoopNumber>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.location.cTo>
+  <columnName>id_cv_ct</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cTo</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.location.cTo>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.location.faultLocationDescription>
+  <columnName>id_cv_fd</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>faultLocationDescription</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.location.faultLocationDescription>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.manufacturer.size>
+  <columnName>id_cv_mf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>manufacturer</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.manufacturer.size>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.numberOfConductors>
+  <columnName>id_cv_nc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>numberOfConductors</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.numberOfConductors>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.numberOfPreviousFailures>
+  <columnName>id_cv_npf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>numberOfPreviousFailures</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.numberOfPreviousFailures>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.ppid>
+  <columnName>id_cv_pid</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>ppid</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.ppid>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.reliabilityInformation.failureCondition>
+  <columnName>id_cv_fc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>failureCondition</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.reliabilityInformation.failureCondition>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.reliabilityInformation.isRevault>
+  <columnName>id_cv_ir</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>isRevault</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.reliabilityInformation.isRevault>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.reliabilityInformation.isWetSoil>
+  <columnName>id_cv_iw</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>isWetSoil</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.reliabilityInformation.isWetSoil>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.reliabilityInformation.repairDate>
+  <columnName>id_cv_rd</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>repairDate</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.reliabilityInformation.repairDate>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.workInformation.manhours>
+  <columnName>id_cv_mh</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>manhours</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.workInformation.manhours>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.workInformation.upr>
+  <columnName>id_cv_u</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>upr</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.workInformation.upr>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.workInformation.woNumber>
+  <columnName>id_cv_won</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>woNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.workInformation.woNumber>
+<TCMS2_Publish_Repair_Action.MessageData.cfrService.yearMfg>
+  <columnName>id_cv_ym</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>yearMfg</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.cfrService.yearMfg>
+<TCMS2_Publish_Repair_Action.MessageData.code>
+  <columnName>id_cd</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>code</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.code>
+<TCMS2_Publish_Repair_Action.MessageData.componentId>
+  <columnName>id_cid</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>componentId</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.componentId>
+<TCMS2_Publish_Repair_Action.MessageData.constructionType>
+  <columnName>id_ct</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>constructionType</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.constructionType>
+<TCMS2_Publish_Repair_Action.MessageData.count>
+  <columnName>id_cnt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>count</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.count>
+<TCMS2_Publish_Repair_Action.MessageData.crane>
+  <columnName>id_cr</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>crane</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.crane>
+<TCMS2_Publish_Repair_Action.MessageData.description>
+  <columnName>id_ds</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>description</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.description>
+<TCMS2_Publish_Repair_Action.MessageData.device.fplId>
+  <columnName>id_d_id</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>fplId</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.device.fplId>
+<TCMS2_Publish_Repair_Action.MessageData.device.actualDeviceType>
+  <columnName>id_d_adt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>actualDeviceType</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.device.actualDeviceType>
+<TCMS2_Publish_Repair_Action.MessageData.device.ddbKey>
+  <columnName>id_d_dk</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>ddbKey</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.device.ddbKey>
+<TCMS2_Publish_Repair_Action.MessageData.device.troubleCoordinateX>
+  <columnName>id_d_tcx</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>troubleCoordinateX</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.device.troubleCoordinateX>
+<TCMS2_Publish_Repair_Action.MessageData.device.troubleCoordinateY>
+  <columnName>id_d_tcy</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>troubleCoordinateY</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.device.troubleCoordinateY>
+<TCMS2_Publish_Repair_Action.MessageData.device.childDevices.deviceId>
+  <columnName>id_d_cdi</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>deviceId</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.device.childDevices.deviceId>
+<TCMS2_Publish_Repair_Action.MessageData.device.previousProtectiveDeviceStack.deviceId>
+  <columnName>id_d_ppds</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>deviceId</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.device.previousProtectiveDeviceStack.deviceId>
+<TCMS2_Publish_Repair_Action.MessageData.discSwitch>
+  <columnName>id_ds</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>discSwitch</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.discSwitch>
+<TCMS2_Publish_Repair_Action.MessageData.dnComment>
+  <columnName>id_dc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>dnComment</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.dnComment>
+<TCMS2_Publish_Repair_Action.MessageData.dnDdbCoord>
+  <columnName>id_ddc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>dnDdbCoord</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.dnDdbCoord>
+<TCMS2_Publish_Repair_Action.MessageData.dnDeviceId>
+  <columnName>id_ddid</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>dnDeviceId</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.dnDeviceId>
+<TCMS2_Publish_Repair_Action.MessageData.dnXCoord>
+  <columnName>id_dx</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>dnXCoord</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.dnXCoord>
+<TCMS2_Publish_Repair_Action.MessageData.dnYCoord>
+  <columnName>id_dy</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>dnYCoord</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.dnYCoord>
+<TCMS2_Publish_Repair_Action.MessageData.dolly>
+  <columnName>id_do</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>dolly</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.dolly>
+<TCMS2_Publish_Repair_Action.MessageData.faultLocation.aFrom>
+  <columnName>id_fl_af</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>aFrom</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.faultLocation.aFrom>
+<TCMS2_Publish_Repair_Action.MessageData.faultLocation.aLoopNumber>
+  <columnName>id_fl_aln</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>aLoopNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.faultLocation.aLoopNumber>
+<TCMS2_Publish_Repair_Action.MessageData.faultLocation.aTo>
+  <columnName>id_fl_at</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>aTo</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.faultLocation.aTo>
+<TCMS2_Publish_Repair_Action.MessageData.faultLocation.bFrom>
+  <columnName>id_fl_bf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>bFrom</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.faultLocation.bFrom>
+<TCMS2_Publish_Repair_Action.MessageData.faultLocation.bLoopNumber>
+  <columnName>id_fl_bln</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>bLoopNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.faultLocation.bLoopNumber>
+<TCMS2_Publish_Repair_Action.MessageData.faultLocation.bTo>
+  <columnName>id_fl_bt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>bTo</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.faultLocation.bTo>
+<TCMS2_Publish_Repair_Action.MessageData.faultLocation.cFrom>
+  <columnName>id_fl_cf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cFrom</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.faultLocation.cFrom>
+<TCMS2_Publish_Repair_Action.MessageData.faultLocation.cLoopNumber>
+  <columnName>id_fl_cln</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cLoopNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.faultLocation.cLoopNumber>
+<TCMS2_Publish_Repair_Action.MessageData.faultLocation.cTo>
+  <columnName>id_fl_ct</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cTo</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.faultLocation.cTo>
+<TCMS2_Publish_Repair_Action.MessageData.faultLocation.faultLocationDescription>
+  <columnName>id_fl_fd</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>faultLocationDescription</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.faultLocation.faultLocationDescription>
+<TCMS2_Publish_Repair_Action.MessageData.fuseSize>
+  <columnName>id_fs</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>fuseSize</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.fuseSize>
+<TCMS2_Publish_Repair_Action.MessageData.fuseType>
+  <columnName>id_ft</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>fuseType</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.fuseType>
+<TCMS2_Publish_Repair_Action.MessageData.haulingCrane>
+  <columnName>id_hc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>haulingCrane</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.haulingCrane>
+<TCMS2_Publish_Repair_Action.MessageData.id>
+  <columnName>id_id</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>id</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.id>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.accessible>
+  <columnName>id_rt_id1_ac</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>accessible</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.accessible>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.auto>
+  <columnName>id_rt_id1_au</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>auto</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.auto>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.componentId>
+  <columnName>id_rt_id1_cid</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>componentId</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.componentId>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.crane>
+  <columnName>id_rt_id1_cr</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>crane</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.crane>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.description>
+  <columnName>id_rt_id1_ds</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>description</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.description>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.fplId>
+  <columnName>id_rt_id1_d_id</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>fplId</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.fplId>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.actualDeviceType>
+  <columnName>id_rt_id1_d_adt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>actualDeviceType</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.actualDeviceType>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.ddbKey>
+  <columnName>id_rt_id1_d_dk</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>ddbKey</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.ddbKey>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.troubleCoordinateX>
+  <columnName>id_rt_id1_d_tcx</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>troubleCoordinateX</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.troubleCoordinateX>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.troubleCoordinateY>
+  <columnName>id_rt_id1_d_tcy</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>troubleCoordinateY</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.troubleCoordinateY>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.childDevices.deviceId>
+  <columnName>id_rt_id1_d_cdi</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>deviceId</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.childDevices.deviceId>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.previousProtectiveDeviceStack.deviceId>
+  <columnName>id_rt_id1_d_ppds</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>deviceId</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.previousProtectiveDeviceStack.deviceId>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnComment>
+  <columnName>id_rt_id1_dc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>dnComment</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnComment>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnDdbCoord>
+  <columnName>id_rt_id1_ddc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>dnDdbCoord</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnDdbCoord>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnDeviceId>
+  <columnName>id_rt_id1_ddid</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>dnDeviceId</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnDeviceId>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnXCoord>
+  <columnName>id_rt_id1_dx</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>dnXCoord</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnXCoord>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnYCoord>
+  <columnName>id_rt_id1_dy</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>dnYCoord</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnYCoord>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dolly>
+  <columnName>id_rt_id1_do</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>dolly</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dolly>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.haulingCrane>
+  <columnName>id_rt_id1_hc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>haulingCrane</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.haulingCrane>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.overhead>
+  <columnName>id_rt_id1_oh</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>overhead</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.overhead>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.powerDolly>
+  <columnName>id_rt_id1_pd</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>powerDolly</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.powerDolly>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.profile>
+  <columnName>id_rt_id1_pf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>profile</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.profile>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.rcOff>
+  <columnName>id_rt_id1_ro</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>rcOff</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.rcOff>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.arm>
+  <columnName>id_rt_id1_in_ar</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>arm</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.arm>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.cluster>
+  <columnName>id_rt_id1_in_cl</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cluster</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.cluster>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.kva>
+  <columnName>id_rt_id1_in_kv</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>kva</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.kva>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.mAndS>
+  <columnName>id_rt_id1_in_ms</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>mAndS</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.mAndS>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.phase>
+  <columnName>id_rt_id1_in_ph</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>phase</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.phase>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.pole>
+  <columnName>id_rt_id1_in_po</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>pole</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.pole>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.type.mountingType>
+  <columnName>id_rt_id1_in_mt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>mountingType</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.type.mountingType>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.resolutionDateTime>
+  <columnName>id_rt_id1_rd</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>resolutionDateTime</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.resolutionDateTime>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.scheduled>
+  <columnName>id_rt_id1_sc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>scheduled</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.scheduled>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.status>
+  <columnName>id_rt_id1_stat</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>status</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.status>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.terminationType>
+  <columnName>id_rt_id1_tt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>terminationType</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.terminationType>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.ticket>
+  <columnName>id_rt_id1_tk</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>ticket</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.ticket>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.view>
+  <columnName>id_rt_id1_vw</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>view</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.view>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.voltageRating>
+  <columnName>id_rt_id1_vr</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>voltageRating</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.voltageRating>
+<TCMS2_Publish_Repair_Action.MessageData.insulationType.size>
+  <columnName>id_it</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>size</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.insulationType.size>
+<TCMS2_Publish_Repair_Action.MessageData.neutral>
+  <columnName>id_nu</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>neutral</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.neutral>
+<TCMS2_Publish_Repair_Action.MessageData.newKwd>
+  <columnName>id_nk</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>newKwd</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.newKwd>
+<TCMS2_Publish_Repair_Action.MessageData.newNumber>
+  <columnName>id_nn</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>newNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.newNumber>
+<TCMS2_Publish_Repair_Action.MessageData.newReading>
+  <columnName>id_nr</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>newReading</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.newReading>
+<TCMS2_Publish_Repair_Action.MessageData.numberOfTrees>
+  <columnName>id_nt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>numberOfTrees</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.numberOfTrees>
+<TCMS2_Publish_Repair_Action.MessageData.ocrId>
+  <columnName>id_ocrid</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>ocrId</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.ocrId>
+<TCMS2_Publish_Repair_Action.MessageData.ocrSize>
+  <columnName>id_ocrs</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>ocrSize</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.ocrSize>
+<TCMS2_Publish_Repair_Action.MessageData.ocrType>
+  <columnName>id_ocrt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>ocrType</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.ocrType>
+<TCMS2_Publish_Repair_Action.MessageData.oldKwd>
+  <columnName>id_ok</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>oldKwd</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.oldKwd>
+<TCMS2_Publish_Repair_Action.MessageData.oldNumber>
+  <columnName>id_on</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>oldNumber</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.oldNumber>
+<TCMS2_Publish_Repair_Action.MessageData.oldReading>
+  <columnName>id_or</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>oldReading</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.oldReading>
+<TCMS2_Publish_Repair_Action.MessageData.operatedDevice>
+  <columnName>id_opd</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>operatedDevice</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.operatedDevice>
+<TCMS2_Publish_Repair_Action.MessageData.operatingVoltage.size>
+  <columnName>id_opv</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>size</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.operatingVoltage.size>
+<TCMS2_Publish_Repair_Action.MessageData.overhead>
+  <columnName>id_oh</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>overhead</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.overhead>
+<TCMS2_Publish_Repair_Action.MessageData.percentPalms>
+  <columnName>id_pp</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>percentPalms</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.percentPalms>
+<TCMS2_Publish_Repair_Action.MessageData.phase>
+  <columnName>id_ph</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>phase</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.phase>
+<TCMS2_Publish_Repair_Action.MessageData.phaseA>
+  <columnName>id_pa</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>phaseA</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.phaseA>
+<TCMS2_Publish_Repair_Action.MessageData.phaseARefuseTransformerInfo>
+  <columnName>id_part</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>phaseARefuseTransformerInfo</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.phaseARefuseTransformerInfo>
+<TCMS2_Publish_Repair_Action.MessageData.phaseB>
+  <columnName>id_pb</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>phaseB</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.phaseB>
+<TCMS2_Publish_Repair_Action.MessageData.phaseBRefuseTransformerInfo>
+  <columnName>id_pbrt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>phaseBRefuseTransformerInfo</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.phaseBRefuseTransformerInfo>
+<TCMS2_Publish_Repair_Action.MessageData.phaseC>
+  <columnName>id_pc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>phaseC</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.phaseC>
+<TCMS2_Publish_Repair_Action.MessageData.phaseCRefuseTransformerInfo>
+  <columnName>id_pcrt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>phaseCRefuseTransformerInfo</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.phaseCRefuseTransformerInfo>
+<TCMS2_Publish_Repair_Action.MessageData.powerDolly>
+  <columnName>id_pd</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>powerDolly</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.powerDolly>
+<TCMS2_Publish_Repair_Action.MessageData.powerTempId>
+  <columnName>id_ptid</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>powerTempId</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.powerTempId>
+<TCMS2_Publish_Repair_Action.MessageData.primary>
+  <columnName>id_pr</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>primary</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.primary>
+<TCMS2_Publish_Repair_Action.MessageData.profile>
+  <columnName>id_pf</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>profile</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.profile>
+<TCMS2_Publish_Repair_Action.MessageData.rcOff>
+  <columnName>id_ro</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>rcOff</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.rcOff>
+<TCMS2_Publish_Repair_Action.MessageData.rearOfLocation>
+  <columnName>id_rol</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>rearOfLocation</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.rearOfLocation>
+<TCMS2_Publish_Repair_Action.MessageData.replaceTransformerInfo.arm>
+  <columnName>id_rti_ar</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>arm</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.replaceTransformerInfo.arm>
+<TCMS2_Publish_Repair_Action.MessageData.replaceTransformerInfo.cluster>
+  <columnName>id_rti_cl</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>cluster</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.replaceTransformerInfo.cluster>
+<TCMS2_Publish_Repair_Action.MessageData.replaceTransformerInfo.kva>
+  <columnName>id_rti_kv</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>kva</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.replaceTransformerInfo.kva>
+<TCMS2_Publish_Repair_Action.MessageData.replaceTransformerInfo.mAndS>
+  <columnName>id_rti_ms</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>mAndS</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.replaceTransformerInfo.mAndS>
+<TCMS2_Publish_Repair_Action.MessageData.replaceTransformerInfo.phase>
+  <columnName>id_rti_ph</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>phase</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.replaceTransformerInfo.phase>
+<TCMS2_Publish_Repair_Action.MessageData.replaceTransformerInfo.pole>
+  <columnName>id_rti_po</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>pole</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.replaceTransformerInfo.pole>
+<TCMS2_Publish_Repair_Action.MessageData.replaceTransformerInfo.type.mountingType>
+  <columnName>id_rti_mt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>mountingType</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.replaceTransformerInfo.type.mountingType>
+<TCMS2_Publish_Repair_Action.MessageData.resolutionDateTime>
+  <columnName>id_rdt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>resolutionDateTime</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.resolutionDateTime>
+<TCMS2_Publish_Repair_Action.MessageData.saltSpray>
+  <columnName>id_ss</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>saltSpray</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.saltSpray>
+<TCMS2_Publish_Repair_Action.MessageData.sand>
+  <columnName>id_sa</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>sand</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.sand>
+<TCMS2_Publish_Repair_Action.MessageData.scheduled>
+  <columnName>id_sc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>scheduled</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.scheduled>
+<TCMS2_Publish_Repair_Action.MessageData.secondary>
+  <columnName>id_se</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>secondary</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.secondary>
+<TCMS2_Publish_Repair_Action.MessageData.service>
+  <columnName>id_sv</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>service</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.service>
+<TCMS2_Publish_Repair_Action.MessageData.size>
+  <columnName>id_sz</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>size</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.size>
+<TCMS2_Publish_Repair_Action.MessageData.sizeNeutral.size>
+  <columnName>id_sn</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>sizeNeutral</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.sizeNeutral.size>
+<TCMS2_Publish_Repair_Action.MessageData.sizePrimary.size>
+  <columnName>id_sp</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>sizeNeutral</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.sizePrimary.size>
+<TCMS2_Publish_Repair_Action.MessageData.sizeSecondary.size>
+  <columnName>id_ssec</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>size</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.sizeSecondary.size>
+<TCMS2_Publish_Repair_Action.MessageData.sizeService.size>
+  <columnName>id_ssvc</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>size</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.sizeService.size>
+<TCMS2_Publish_Repair_Action.MessageData.status>
+  <columnName>id_stat</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>status</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.status>
+<TCMS2_Publish_Repair_Action.MessageData.swamp>
+  <columnName>id_sw</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>swamp</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.swamp>
+<TCMS2_Publish_Repair_Action.MessageData.terminationType>
+  <columnName>id_trt</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>terminationType</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.terminationType>
+<TCMS2_Publish_Repair_Action.MessageData.type>
+  <columnName>id_ty</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>type</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.type>
+<TCMS2_Publish_Repair_Action.MessageData.view>
+  <columnName>id_vw</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>view</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.view>
+<TCMS2_Publish_Repair_Action.MessageData.voltageRating>
+  <columnName>id_vr</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>voltageRating</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.voltageRating>
+<TCMS2_Publish_Repair_Action.MessageData.voltageRatingSpecification.size>
+  <columnName>id_vrs</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>size</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.voltageRatingSpecification.size>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageHeader.stamp>
+  <columnName>id_ts</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>stamp</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageHeader.stamp>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageHeader.targetType>
+  <columnName>id_tt</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>targetType</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageHeader.targetType>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.accessible>
+  <columnName>id_ac</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>accessible</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.accessible>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.code>
+  <columnName>id_cd</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>code</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.code>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.constructionType>
+  <columnName>id_ct</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>constructionType</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.constructionType>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.description>
+  <columnName>id_ds</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>description</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.description>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.device.fplId>
+  <columnName>id_d_id</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>fplId</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.device.fplId>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.device.actualDeviceType>
+  <columnName>id_d_adt</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>actualDeviceType</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.device.actualDeviceType>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.device.ddbKey>
+  <columnName>id_d_dk</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>ddbKey</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.device.ddbKey>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.device.troubleCoordinateX>
+  <columnName>id_d_tcx</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>troubleCoordinateX</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.device.troubleCoordinateX>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.device.troubleCoordinateY>
+  <columnName>id_d_tcy</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>troubleCoordinateY</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.device.troubleCoordinateY>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.device.childDevices.deviceId>
+  <columnName>id_d_cdi</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>deviceId</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.device.childDevices.deviceId>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.device.previousProtectiveDeviceStack.deviceId>
+  <columnName>id_d_ppds</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>deviceId</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.device.previousProtectiveDeviceStack.deviceId>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.dnComment>
+  <columnName>id_dc</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>dnComment</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.dnComment>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.dnDdbCoord>
+  <columnName>id_ddc</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>dnDdbCoord</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.dnDdbCoord>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.dnDeviceId>
+  <columnName>id_ddid</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>dnDeviceId</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.dnDeviceId>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.dnXCoord>
+  <columnName>id_dx</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>dnXCoord</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.dnXCoord>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.dnYCoord>
+  <columnName>id_dy</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>dnYCoord</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.dnYCoord>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.newKwd>
+  <columnName>id_nk</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>newKwd</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.newKwd>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.newNumber>
+  <columnName>id_nn</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>newNumber</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.newNumber>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.newReading>
+  <columnName>id_nr</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>newReading</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.newReading>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.oldKwd>
+  <columnName>id_ok</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>oldKwd</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.oldKwd>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.oldNumber>
+  <columnName>id_on</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>oldNumber</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.oldNumber>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.oldReading>
+  <columnName>id_or</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>oldReading</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.oldReading>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.overhead>
+  <columnName>id_oh</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>overhead</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.overhead>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.rcOff>
+  <columnName>id_ro</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>rcOff</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.rcOff>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.resolutionDateTime>
+  <columnName>id_rd</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>resolutionDateTime</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.resolutionDateTime>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.scheduled>
+  <columnName>id_sc</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>scheduled</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.scheduled>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.status>
+  <columnName>id_stat</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>status</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.status>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.view>
+  <columnName>id_vw</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>view</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.view>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageHeader.stamp>
+  <columnName>id_ts</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>stamp</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageHeader.stamp>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageHeader.targetType>
+  <columnName>id_tt</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>targetType</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageHeader.targetType>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.accessible>
+  <columnName>id_ac</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>accessible</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.accessible>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.auto>
+  <columnName>id_au</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>auto</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.auto>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.componentId>
+  <columnName>id_cid</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>componentId</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.componentId>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.constructionType>
+  <columnName>id_ct</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>constructionType</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.constructionType>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.crane>
+  <columnName>id_cr</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>crane</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.crane>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.description>
+  <columnName>id_ds</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>description</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.description>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.device.fplId>
+  <columnName>id_d_id</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>fplId</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.device.fplId>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.device.actualDeviceType>
+  <columnName>id_d_adt</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>actualDeviceType</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.device.actualDeviceType>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.device.ddbKey>
+  <columnName>id_d_dk</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>ddbKey</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.device.ddbKey>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.device.troubleCoordinateX>
+  <columnName>id_d_tcx</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>troubleCoordinateX</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.device.troubleCoordinateX>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.device.troubleCoordinateY>
+  <columnName>id_d_tcy</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>troubleCoordinateY</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.device.troubleCoordinateY>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.device.childDevices.deviceId>
+  <columnName>id_d_cdi</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>deviceId</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.device.childDevices.deviceId>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.device.previousProtectiveDeviceStack.deviceId>
+  <columnName>id_d_ppds</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>deviceId</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.device.previousProtectiveDeviceStack.deviceId>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.dnComment>
+  <columnName>id_dc</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>dnComment</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.dnComment>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.dnDdbCoord>
+  <columnName>id_ddc</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>dnDdbCoord</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.dnDdbCoord>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.dnDeviceId>
+  <columnName>id_ddid</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>dnDeviceId</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.dnDeviceId>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.dnXCoord>
+  <columnName>id_dx</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>dnXCoord</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.dnXCoord>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.dnYCoord>
+  <columnName>id_dy</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>dnYCoord</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.dnYCoord>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.dolly>
+  <columnName>id_do</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>dolly</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.dolly>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.haulingCrane>
+  <columnName>id_hc</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>haulingCrane</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.haulingCrane>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.accessible>
+  <columnName>id_rt_ac</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>accessible</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.accessible>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.auto>
+  <columnName>id_rt_id1_au</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>auto</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.auto>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.componentId>
+  <columnName>id_rt_id1_cid</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>componentId</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.componentId>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.crane>
+  <columnName>id_rt_id1_cr</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>crane</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.crane>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.description>
+  <columnName>id_rt_id1_ds</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>description</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.description>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.fplId>
+  <columnName>id_rt_id1_d_id</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>fplId</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.fplId>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.actualDeviceType>
+  <columnName>id_rt_id1_d_adt</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>actualDeviceType</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.actualDeviceType>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.ddbKey>
+  <columnName>id_rt_id1_d_dk</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>ddbKey</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.ddbKey>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.troubleCoordinateX>
+  <columnName>id_rt_id1_d_tcx</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>troubleCoordinateX</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.troubleCoordinateX>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.troubleCoordinateY>
+  <columnName>id_rt_id1_d_tcy</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>troubleCoordinateY</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.troubleCoordinateY>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.childDevices.deviceId>
+  <columnName>id_rt_id1_d_cdi</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>deviceId</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.childDevices.deviceId>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.previousProtectiveDeviceStack.deviceId>
+  <columnName>id_rt_id1_d_ppds</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>deviceId</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.device.previousProtectiveDeviceStack.deviceId>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnComment>
+  <columnName>id_rt_id1_dc</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>dnComment</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnComment>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnDdbCoord>
+  <columnName>id_rt_id1_ddc</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>dnDdbCoord</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnDdbCoord>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnDeviceId>
+  <columnName>id_rt_id1_ddid</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>dnDeviceId</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnDeviceId>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnXCoord>
+  <columnName>id_rt_id1_dx</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>dnXCoord</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnXCoord>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnYCoord>
+  <columnName>id_rt_id1_dy</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>dnYCoord</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dnYCoord>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dolly>
+  <columnName>id_rt_id1_do</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>dolly</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.dolly>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.haulingCrane>
+  <columnName>id_rt_id1_hc</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>haulingCrane</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.haulingCrane>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.overhead>
+  <columnName>id_rt_id1_oh</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>overhead</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.overhead>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.powerDolly>
+  <columnName>id_rt_id1_pd</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>powerDolly</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.powerDolly>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.profile>
+  <columnName>id_rt_id1_pf</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>profile</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.profile>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.rcOff>
+  <columnName>id_rt_id1_ro</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>rcOff</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.rcOff>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.arm>
+  <columnName>id_rt_id1_in_ar</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>arm</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.arm>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.cluster>
+  <columnName>id_rt_id1_in_cl</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>cluster</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.cluster>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.kva>
+  <columnName>id_rt_id1_in_kv</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>kva</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.kva>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.mAndS>
+  <columnName>id_rt_id1_in_ms</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>mAndS</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.mAndS>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.phase>
+  <columnName>id_rt_id1_in_ph</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>phase</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.phase>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.pole>
+  <columnName>id_rt_id1_in_po</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>pole</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.pole>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.type.mountingType>
+  <columnName>id_rt_id1_in_mt</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>mountingType</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.replaceTransformerInfo.type.mountingType>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.resolutionDateTime>
+  <columnName>id_rt_id1_rd</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>resolutionDateTime</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.resolutionDateTime>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.scheduled>
+  <columnName>id_rt_id1_sc</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>scheduled</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.scheduled>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.status>
+  <columnName>id_rt_id1_stat</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>status</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.status>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.terminationType>
+  <columnName>id_rt_id1_tt</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>terminationType</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.terminationType>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.ticket>
+  <columnName>id_rt_id1_tk</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>ticket</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.ticket>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.view>
+  <columnName>id_rt_id1_vw</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>view</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.view>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.voltageRating>
+  <columnName>id_rt_id1_vr</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>voltageRating</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.voltageRating>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.overhead>
+  <columnName>id_oh</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>overhead</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.overhead>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.powerDolly>
+  <columnName>id_pd</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>powerDolly</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.powerDolly>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.profile>
+  <columnName>id_pf</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>profile</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.profile>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.rcOff>
+  <columnName>id_ro</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>rcOff</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.rcOff>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.replaceTransformerInfo.arm>
+  <columnName>id_rti_ar</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>arm</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.replaceTransformerInfo.arm>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.replaceTransformerInfo.cluster>
+  <columnName>id_rti_cl</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>cluster</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.replaceTransformerInfo.cluster>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.replaceTransformerInfo.kva>
+  <columnName>id_rti_kv</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>kva</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.replaceTransformerInfo.kva>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.replaceTransformerInfo.mAndS>
+  <columnName>id_rti_ms</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>mAndS</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.replaceTransformerInfo.mAndS>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.replaceTransformerInfo.phase>
+  <columnName>id_rti_ph</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>phase</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.replaceTransformerInfo.phase>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.replaceTransformerInfo.pole>
+  <columnName>id_rti_po</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>pole</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.replaceTransformerInfo.pole>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.replaceTransformerInfo.type.mountingType>
+  <columnName>id_rti_mt</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>mountingType</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.replaceTransformerInfo.type.mountingType>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.resolutionDateTime>
+  <columnName>id_rdt</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>resolutionDateTime</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.resolutionDateTime>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.scheduled>
+  <columnName>id_sc</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>scheduled</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.scheduled>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.status>
+  <columnName>id_stat</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>status</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.status>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.terminationType>
+  <columnName>id_trt</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>terminationType</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.terminationType>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.view>
+  <columnName>id_vw</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>view</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.view>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.voltageRating>
+  <columnName>id_vr</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>voltageRating</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.voltageRating>
+<TCMS2_Publish_Call.MessageHeader.stamp>
+  <columnName>ts</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>stamp</longColumnName>
+</TCMS2_Publish_Call.MessageHeader.stamp>
+<TCMS2_Publish_Call.MessageHeader.targetType>
+  <columnName>tt</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>targetType</longColumnName>
+</TCMS2_Publish_Call.MessageHeader.targetType>
+<TCMS2_Publish_Call.MessageData.address>
+  <columnName>ad</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>address</longColumnName>
+</TCMS2_Publish_Call.MessageData.address>
+<TCMS2_Publish_Call.MessageData.billAccount>
+  <columnName>ba</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>billAccount</longColumnName>
+</TCMS2_Publish_Call.MessageData.billAccount>
+<TCMS2_Publish_Call.MessageData.city>
+  <columnName>cty</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>city</longColumnName>
+</TCMS2_Publish_Call.MessageData.city>
+<TCMS2_Publish_Call.MessageData.customer.formattedPhoneNumber>
+  <columnName>c_ph</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>formattedPhoneNumber</longColumnName>
+</TCMS2_Publish_Call.MessageData.customer.formattedPhoneNumber>
+<TCMS2_Publish_Call.MessageData.customer.isRequestingCallBack>
+  <columnName>c_cb</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>isRequestingCallBack</longColumnName>
+</TCMS2_Publish_Call.MessageData.customer.isRequestingCallBack>
+<TCMS2_Publish_Call.MessageData.customer.ppid>
+  <columnName>c_pid</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>ppid</longColumnName>
+</TCMS2_Publish_Call.MessageData.customer.ppid>
+<TCMS2_Publish_Call.MessageData.customer.languageMenuOption>
+  <columnName>c_lmo</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>languageMenuOption</longColumnName>
+</TCMS2_Publish_Call.MessageData.customer.languageMenuOption>
+<TCMS2_Publish_Call.MessageData.dateTime>
+  <columnName>dt</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>dateTime</longColumnName>
+</TCMS2_Publish_Call.MessageData.dateTime>
+<TCMS2_Publish_Call.MessageData.destinationServiceCenterId>
+  <columnName>dsci</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>destinationServiceCenterId</longColumnName>
+</TCMS2_Publish_Call.MessageData.destinationServiceCenterId>
+<TCMS2_Publish_Call.MessageData.detail.acceptTime>
+  <columnName>dt_act</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>acceptTime</longColumnName>
+</TCMS2_Publish_Call.MessageData.detail.acceptTime>
+<TCMS2_Publish_Call.MessageData.detail.attachTime>
+  <columnName>dt_att</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>attachTime</longColumnName>
+</TCMS2_Publish_Call.MessageData.detail.attachTime>
+<TCMS2_Publish_Call.MessageData.detail.originator>
+  <columnName>dt_or</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>originator</longColumnName>
+</TCMS2_Publish_Call.MessageData.detail.originator>
+<TCMS2_Publish_Call.MessageData.detail.priorityForDisplay>
+  <columnName>dt_pod</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>priorityForDisplay</longColumnName>
+</TCMS2_Publish_Call.MessageData.detail.priorityForDisplay>
+<TCMS2_Publish_Call.MessageData.detail.remarks>
+  <columnName>dt_rm</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>remarks</longColumnName>
+</TCMS2_Publish_Call.MessageData.detail.remarks>
+<TCMS2_Publish_Call.MessageData.detail.SortedCollectionOfTMComplaintCategory.TMComplaintCategory.componentId>
+  <columnName>dt_cc_id_cid</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>componentId</longColumnName>
+</TCMS2_Publish_Call.MessageData.detail.SortedCollectionOfTMComplaintCategory.TMComplaintCategory.componentId>
+<TCMS2_Publish_Call.MessageData.detail.SortedCollectionOfTMComplaintCategory.TMComplaintCategory.description>
+  <columnName>dt_cc_id_ds</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>description</longColumnName>
+</TCMS2_Publish_Call.MessageData.detail.SortedCollectionOfTMComplaintCategory.TMComplaintCategory.description>
+<TCMS2_Publish_Call.MessageData.detail.time>
+  <columnName>dt_t</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>time</longColumnName>
+</TCMS2_Publish_Call.MessageData.detail.time>
+<TCMS2_Publish_Call.MessageData.device.fplId>
+  <columnName>d_id</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>fplId</longColumnName>
+</TCMS2_Publish_Call.MessageData.device.fplId>
+<TCMS2_Publish_Call.MessageData.device.actualDeviceType>
+  <columnName>d_adt</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>actualDeviceType</longColumnName>
+</TCMS2_Publish_Call.MessageData.device.actualDeviceType>
+<TCMS2_Publish_Call.MessageData.device.ddbKey>
+  <columnName>d_dk</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>ddbKey</longColumnName>
+</TCMS2_Publish_Call.MessageData.device.ddbKey>
+<TCMS2_Publish_Call.MessageData.device.troubleCoordinateX>
+  <columnName>d_tcx</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>troubleCoordinateX</longColumnName>
+</TCMS2_Publish_Call.MessageData.device.troubleCoordinateX>
+<TCMS2_Publish_Call.MessageData.device.troubleCoordinateY>
+  <columnName>d_tcy</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>troubleCoordinateY</longColumnName>
+</TCMS2_Publish_Call.MessageData.device.troubleCoordinateY>
+<TCMS2_Publish_Call.MessageData.device.childDevices.deviceId>
+  <columnName>d_cdi</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>deviceId</longColumnName>
+</TCMS2_Publish_Call.MessageData.device.childDevices.deviceId>
+<TCMS2_Publish_Call.MessageData.device.previousProtectiveDeviceStack.deviceId>
+  <columnName>d_ppds</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>deviceId</longColumnName>
+</TCMS2_Publish_Call.MessageData.device.previousProtectiveDeviceStack.deviceId>
+<TCMS2_Publish_Call.MessageData.deviceDdbKey>
+  <columnName>ddk</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>deviceDdbKey</longColumnName>
+</TCMS2_Publish_Call.MessageData.deviceDdbKey>
+<TCMS2_Publish_Call.MessageData.displayType>
+  <columnName>dst</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>displayType</longColumnName>
+</TCMS2_Publish_Call.MessageData.displayType>
+<TCMS2_Publish_Call.MessageData.enteredRestorationTimestamp>
+  <columnName>ert</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>enteredRestorationTimestamp</longColumnName>
+</TCMS2_Publish_Call.MessageData.enteredRestorationTimestamp>
+<TCMS2_Publish_Call.MessageData.feeder.fplId>
+  <columnName>f_id</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>fplId</longColumnName>
+</TCMS2_Publish_Call.MessageData.feeder.fplId>
+<TCMS2_Publish_Call.MessageData.feeder.actualDeviceType>
+  <columnName>f_adt</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>actualDeviceType</longColumnName>
+</TCMS2_Publish_Call.MessageData.feeder.actualDeviceType>
+<TCMS2_Publish_Call.MessageData.feeder.ddbKey>
+  <columnName>f_dk</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>ddbKey</longColumnName>
+</TCMS2_Publish_Call.MessageData.feeder.ddbKey>
+<TCMS2_Publish_Call.MessageData.feeder.troubleCoordinateX>
+  <columnName>f_tcx</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>troubleCoordinateX</longColumnName>
+</TCMS2_Publish_Call.MessageData.feeder.troubleCoordinateX>
+<TCMS2_Publish_Call.MessageData.feeder.troubleCoordinateY>
+  <columnName>f_tcy</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>troubleCoordinateY</longColumnName>
+</TCMS2_Publish_Call.MessageData.feeder.troubleCoordinateY>
+<TCMS2_Publish_Call.MessageData.feeder.previousProtectiveDeviceStack.deviceId>
+  <columnName>f_ppds</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>deviceId</longColumnName>
+</TCMS2_Publish_Call.MessageData.feeder.previousProtectiveDeviceStack.deviceId>
+<TCMS2_Publish_Call.MessageData.formattedPhoneNumber>
+  <columnName>fph</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>formattedPhoneNumber</longColumnName>
+</TCMS2_Publish_Call.MessageData.formattedPhoneNumber>
+<TCMS2_Publish_Call.MessageData.locationDescription>
+  <columnName>ld</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>locationDescription</longColumnName>
+</TCMS2_Publish_Call.MessageData.locationDescription>
+<TCMS2_Publish_Call.MessageData.parent.fplId>
+  <columnName>p_id</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>fplId</longColumnName>
+</TCMS2_Publish_Call.MessageData.parent.fplId>
+<TCMS2_Publish_Call.MessageData.parent.actualDeviceType>
+  <columnName>p_adt</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>actualDeviceType</longColumnName>
+</TCMS2_Publish_Call.MessageData.parent.actualDeviceType>
+<TCMS2_Publish_Call.MessageData.parent.ddbKey>
+  <columnName>p_dk</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>ddbKey</longColumnName>
+</TCMS2_Publish_Call.MessageData.parent.ddbKey>
+<TCMS2_Publish_Call.MessageData.parent.troubleCoordinateX>
+  <columnName>p_tcx</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>troubleCoordinateX</longColumnName>
+</TCMS2_Publish_Call.MessageData.parent.troubleCoordinateX>
+<TCMS2_Publish_Call.MessageData.parent.troubleCoordinateY>
+  <columnName>p_tcy</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>troubleCoordinateY</longColumnName>
+</TCMS2_Publish_Call.MessageData.parent.troubleCoordinateY>
+<TCMS2_Publish_Call.MessageData.parent.childDevices.deviceId>
+  <columnName>p_cdi</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>deviceId</longColumnName>
+</TCMS2_Publish_Call.MessageData.parent.childDevices.deviceId>
+<TCMS2_Publish_Call.MessageData.parent.previousProtectiveDeviceStack.deviceId>
+  <columnName>p_ppds</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>deviceId</longColumnName>
+</TCMS2_Publish_Call.MessageData.parent.previousProtectiveDeviceStack.deviceId>
+<TCMS2_Publish_Call.MessageData.reportedBy>
+  <columnName>rby</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>reportedBy</longColumnName>
+</TCMS2_Publish_Call.MessageData.reportedBy>
+<TCMS2_Publish_Call.MessageData.toldItr>
+  <columnName>ti</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>toldItr</longColumnName>
+</TCMS2_Publish_Call.MessageData.toldItr>
+<TCMS2_Publish_Call.MessageData.toldMode>
+  <columnName>tm</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>toldMode</longColumnName>
+</TCMS2_Publish_Call.MessageData.toldMode>
+<TCMS2_Publish_Call.MessageData.zipCode>
+  <columnName>zc</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>zipCode</longColumnName>
+</TCMS2_Publish_Call.MessageData.zipCode>
+<TCMS2_Publish_Callback.MessageHeader.stamp>
+  <columnName>ts</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>stamp</longColumnName>
+</TCMS2_Publish_Callback.MessageHeader.stamp>
+<TCMS2_Publish_Callback.MessageHeader.targetType>
+  <columnName>tt</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>targetType</longColumnName>
+</TCMS2_Publish_Callback.MessageHeader.targetType>
+<TCMS2_Publish_Callback.MessageData.callBackType>
+  <columnName>ct</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>callBackType</longColumnName>
+</TCMS2_Publish_Callback.MessageData.callBackType>
+<TCMS2_Publish_Callback.MessageData.ticketOop>
+  <columnName>t_oop</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>ticketOop</longColumnName>
+</TCMS2_Publish_Callback.MessageData.ticketOop>
+<TCMS2_Publish_Callback.MessageData.ticketNumber>
+  <columnName>t_num</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>ticketNumber</longColumnName>
+</TCMS2_Publish_Callback.MessageData.ticketNumber>
+<TCMS2_Publish_Callback.MessageData.ticketDate>
+  <columnName>tk_dt</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>ticketDate</longColumnName>
+</TCMS2_Publish_Callback.MessageData.ticketDate>
+<TCMS2_Publish_Callback.MessageData.ticketItrEtr>
+  <columnName>t_ie</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>ticketItrEtr</longColumnName>
+</TCMS2_Publish_Callback.MessageData.ticketItrEtr>
+<TCMS2_Publish_Callback.MessageData.ticketType>
+  <columnName>t_t</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>ticketType</longColumnName>
+</TCMS2_Publish_Callback.MessageData.ticketType>
+<TCMS2_Publish_Callback.MessageData.reasonCode>
+  <columnName>rc</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>reasonCode</longColumnName>
+</TCMS2_Publish_Callback.MessageData.reasonCode>
+<TCMS2_Publish_Callback.MessageData.nextStep>
+  <columnName>ns</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>nextStep</longColumnName>
+</TCMS2_Publish_Callback.MessageData.nextStep>
+<TCMS2_Publish_Callback.MessageData.lastChangedReasonOrNextStep>
+  <columnName>lcr</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>lastChangedReasonOrNextStep</longColumnName>
+</TCMS2_Publish_Callback.MessageData.lastChangedReasonOrNextStep>
+<TCMS2_Publish_Callback.MessageData.ticketDeviceFplId>
+  <columnName>t_did</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>ticketDeviceFplId</longColumnName>
+</TCMS2_Publish_Callback.MessageData.ticketDeviceFplId>
+<TCMS2_Publish_Callback.MessageData.updateType>
+  <columnName>ut</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>updateType</longColumnName>
+</TCMS2_Publish_Callback.MessageData.updateType>
+<TCMS2_Publish_Callback.MessageData.callbackRequestTime>
+  <columnName>c_brt</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>callbackRequestTime</longColumnName>
+</TCMS2_Publish_Callback.MessageData.callbackRequestTime>
+<TCMS2_Publish_Callback.MessageData.customerPhoneNumber>
+  <columnName>c_ph</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>customerPhoneNumber</longColumnName>
+</TCMS2_Publish_Callback.MessageData.customerPhoneNumber>
+<TCMS2_Publish_Callback.MessageData.customerAccountNumber>
+  <columnName>c_ac</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>customerAccountNumber</longColumnName>
+</TCMS2_Publish_Callback.MessageData.customerAccountNumber>
+<TCMS2_Publish_Callback.MessageData.customerPpidNumber>
+  <columnName>c_ppid</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>customerPpidNumber</longColumnName>
+</TCMS2_Publish_Callback.MessageData.customerPpidNumber>
+<TCMS2_Publish_Callback.MessageData.languageMenuOption>
+  <columnName>lmo</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>languageMenuOption</longColumnName>
+</TCMS2_Publish_Callback.MessageData.languageMenuOption>
+<TCMS2_Publish_Callback.MessageData.restoredCustomerPercentage>
+  <columnName>rp</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>restoredCustomerPercentage</longColumnName>
+</TCMS2_Publish_Callback.MessageData.restoredCustomerPercentage>
+<TCMS2_Publish_Callback.MessageData.causeCode>
+  <columnName>cc</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>causeCode</longColumnName>
+</TCMS2_Publish_Callback.MessageData.causeCode>
+<TCMS2_Publish_Callback.MessageData.supportCode>
+  <columnName>sc</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>supportCode</longColumnName>
+</TCMS2_Publish_Callback.MessageData.supportCode>
+<TCMS2_Publish_Ticket.MessageData.causeCode>
+  <columnName>cc</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>identifier</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.causeCode>
+<TCMS2_Publish_Ticket.MessageData.equipmentType>
+  <columnName>etc</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>code</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.equipmentType>
+<TCMS2_Publish_Ticket.MessageData.supportCode>
+  <columnName>sc</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>code</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.supportCode>
+<TCMS2_Publish_Ticket.MessageData.companyCode>
+  <columnName>ccd</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>companyCode</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.companyCode>
+<TCMS2_Publish_Ticket_Event_Log_Entry.MessageData.companyCode>
+  <columnName>id_ccd</columnName>
+  <columnFamily>e</columnFamily>
+  <longColumnName>companyCode</longColumnName>
+</TCMS2_Publish_Ticket_Event_Log_Entry.MessageData.companyCode>
+<TCMS2_Publish_Work_Request.MessageData.companyCode>
+  <columnName>id_ccd</columnName>
+  <columnFamily>w</columnFamily>
+  <longColumnName>companyCode</longColumnName>
+</TCMS2_Publish_Work_Request.MessageData.companyCode>
+<TCMS2_Publish_Repair_Action.MessageData.companyCode>
+  <columnName>id_ccd</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>companyCode</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.companyCode>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.companyCode>
+  <columnName>id_ccd</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>companyCode</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.companyCode>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.companyCode>
+  <columnName>id_ccd</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>companyCode</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.companyCode>
+<TCMS2_Publish_Call.MessageData.companyCode>
+  <columnName>ccd</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>companyCode</longColumnName>
+</TCMS2_Publish_Call.MessageData.companyCode>
+<TCMS2_Publish_Callback.MessageData.companyCode>
+  <columnName>ccd</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>companyCode</longColumnName>
+</TCMS2_Publish_Callback.MessageData.companyCode>
+<TCMS2_Publish_Call.MessageData.device.companyCode>
+  <columnName>d_ccd</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>companyCode</longColumnName>
+</TCMS2_Publish_Call.MessageData.device.companyCode>
+<TCMS2_Publish_Call.MessageData.feeder.companyCode>
+  <columnName>f_ccd</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>companyCode</longColumnName>
+</TCMS2_Publish_Call.MessageData.feeder.companyCode>
+<TCMS2_Publish_Call.MessageData.parent.companyCode>
+  <columnName>p_ccd</columnName>
+  <columnFamily>c</columnFamily>
+  <longColumnName>companyCode</longColumnName>
+</TCMS2_Publish_Call.MessageData.parent.companyCode>
+<TCMS2_Publish_Ticket.MessageData.device.companyCode>
+  <columnName>d_ccd</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>companyCode</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.device.companyCode>
+<TCMS2_Publish_Repair_Action.MessageData.device.companyCode>
+  <columnName>id_d_ccd</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>companyCode</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.device.companyCode>
+<TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.companyCode>
+  <columnName>id_rt_id1_ccd</columnName>
+  <columnFamily>r</columnFamily>
+  <longColumnName>companyCode</longColumnName>
+</TCMS2_Publish_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.companyCode>
+<TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.device.companyCode>
+  <columnName>id_d_ccd</columnName>
+  <columnFamily>rm</columnFamily>
+  <longColumnName>companyCode</longColumnName>
+</TCMS2_Publish_Replace_Meter_Repair_Action.MessageData.device.companyCode>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.device.companyCode>
+  <columnName>id_d_ccd</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>companyCode</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.device.companyCode>
+<TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.companyCode>
+  <columnName>id_rt_ccd</columnName>
+  <columnFamily>rx</columnFamily>
+  <longColumnName>companyCode</longColumnName>
+</TCMS2_Publish_Replace_Transformer_Repair_Action.MessageData.IdentitySetOfTMRepairActionReplaceTransformer.TMRepairActionReplaceTransformer.companyCode>
+<TCMS2_Publish_Ticket.MessageData.vmAssignComment>
+  <columnName>vac</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>vmAssignComment</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.vmAssignComment>
+<TCMS2_Publish_Ticket.MessageData.vmCompleteComment>
+  <columnName>vcc</columnName>
+  <columnFamily>t</columnFamily>
+  <longColumnName>vmCompleteComment</longColumnName>
+</TCMS2_Publish_Ticket.MessageData.vmCompleteComment>
+</root>
