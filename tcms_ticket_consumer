@@ -1,0 +1,2098 @@
+package nextera.tcms.fpl
+import scala.util.Try
+import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
+import scala.collection.mutable.Buffer
+import scala.collection.mutable
+import java.io._
+import collection.mutable._
+import java.util.{ Calendar, Collections, LinkedHashMap, ArrayList, Map }
+import java.text.SimpleDateFormat
+import java.net.InetAddress
+import org.yaml.snakeyaml.Yaml
+import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor
+import org.json4s._
+import org.json4s.jackson.JsonMethods._
+import org.apache.log4j.{ Level, Logger }
+import org.apache.kafka.common.TopicPartition
+import org.apache.kafka.clients.consumer.KafkaConsumer
+import org.apache.kafka.clients.consumer.ConsumerRecord
+import org.apache.kafka.clients.consumer.ConsumerConfig
+import org.apache.kafka.clients.consumer.OffsetAndMetadata
+import org.apache.kafka.clients.producer.{ Callback, ProducerConfig, ProducerRecord, RecordMetadata, KafkaProducer }
+import org.apache.kafka.common.errors.WakeupException
+import org.apache.spark.sql._
+import org.apache.log4j.Logger
+import org.apache.log4j.PropertyConfigurator
+import config.TicketConsumerConfiguration
+import Dynamo._
+import Kafka._
+import Utils._
+import S3._
+import com.amazonaws.services.dynamodbv2.model.AttributeValue
+import com.amazonaws.{ AmazonClientException, AmazonServiceException, SdkClientException }
+import scala.util.control.Breaks._
+
+class TicketConsumer(val appName: String, val dynamoURL: String, val bootstrapServers: String, val groupId: String, val topic: String,
+                     val dvcTriggerTopic: String, val dbg: Boolean = false, val secure: Boolean = false,
+                     val logWriterPath: String, val exceptionLog: String, val logKeepDays: Int,
+                     val tivoliEmail: String, val tivoliTag: String, val tivoliSeverity: String,
+                     val s3PublishLogPath: String, val s3Endpoint: String,
+                     val ticketTableP: String, val purgeLogTableP: String, val ticketHistoryTableP: String,
+                     val callbackTableP: String, val callbackHistoryTableP: String, val callTableP: String,
+                     val callHistoryTableP: String, val ticketBridgeTableP: String,
+                     val objMapTableP: String, val tktNumToKeyTableP: String,
+                     val rowkeyP: String) {
+
+  implicit val formats = org.json4s.DefaultFormats
+
+  var purgeCount = 0
+  var purgedCount = 0
+  val ymdFormat = new SimpleDateFormat("yyyyMMdd")
+  val dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss")
+  val myFormat = new SimpleDateFormat("MMyyyy")
+  val server = InetAddress.getLocalHost.getHostName()
+  var json = Xml.toJson(xml.XML.loadString("<x></x>"))
+  var jsonMsgType = ""
+  var oopid = ""
+  var stamp = ""
+  var ticketRowkey = ""
+  var operation = ""
+  var ticketNum = ""
+  var ticketYMD = ""
+  var ticketId = ""
+  var row_elem = new LinkedHashMap[String, Object]
+  var componentIds = new ArrayList[String]
+  var componentColumn = ""
+  var componentColumns = Set[String]()
+
+  val messageType = "TCMS2_Publish_Ticket"
+  val sortKey = "message_type_ts"
+  var updateDeleteCase = false
+  var updateAddDeleteCase = false
+  var republishCase = false
+  var kafkaMsg = ""
+
+  // Dynamo variables
+  val rowkey = rowkeyP
+  val ticketTable = ticketTableP
+  val purgeLogTable = purgeLogTableP
+  val ticketHistoryTable = ticketHistoryTableP
+  val callbackTable = callbackTableP
+  val callbackHistoryTable = callbackHistoryTableP
+  val callTable = callTableP
+  val callHistoryTable = callHistoryTableP
+  val ticketBridgeTable = ticketBridgeTableP
+  val objMapTable = objMapTableP
+  val tktNumToKeyTable = tktNumToKeyTableP
+
+  // Kafka variables
+  val props = createKafkaProperties(bootstrapServers, groupId, secure)
+  val consumer = new KafkaConsumer[String, String](props)
+  val producerProps = createProducerProperties(bootstrapServers, secure)
+  val producer = new KafkaProducer[String, String](producerProps)
+  var msgOffset = ""
+  var topicStamp = ""
+  var producerStamp = ""
+
+  var today = ymdFormat.format(Calendar.getInstance().getTime())
+  var purgeLogWriter = None
+
+  // Cloudwatch Logs
+  var logStream = "tcms-" + appName + "-" + today
+  //initLogStream(logStream)
+  log(s"logStream: $logStream")
+  log("bootstrapServers is: " + bootstrapServers)
+  log("groupId is: " + groupId)
+
+  //var logWriter = new PrintWriter(new FileOutputStream(new File(logWriterPath), true))
+  var logWriter = null
+
+  // spark
+  val spark = SparkSession.builder().master("yarn").appName(appName).getOrCreate()
+  spark.sparkContext.hadoopConfiguration.set("fs.s3a.endpoint", s3Endpoint)
+
+  //load xml lookup file
+  val columnLkpXml = xml.XML.loadFile(System.getProperty("user.dir") + "/" + "columnNameLkp.xml")
+  val columnLkpJson = Xml.toJson(columnLkpXml)
+
+  //shutdown hook
+  sys addShutdownHook (shutdownHook())
+
+  case class ticketException(severity: String, message: String, functionName: String) extends Exception(message: String)
+
+  /**
+   * Function to write log into stdout or cloudwatch
+   *
+   */
+  def log(msg: String) = {
+    println(msg)
+    putLogEvents(logStream, msg)
+  }
+
+  /**
+   * Handle shutdown from shutdown hook, which is a separate thread
+   */
+  def shutdownHook() = {
+    consumer.wakeup() //throws WakeupException
+  }
+
+  /**
+   * Function to delete rows of table by rowkey and list of sortkeys
+   */
+  def deleteItems(tableName: String, rowKey: String, rowKeyValue: String, sortKey: String, sortKeys: ArrayList[String]) {
+    log(s"deleteItems - tableName=$tableName, rowKey=$rowKeyValue, sortKey name=$sortKey, sortKeys size: ${sortKeys.size} ")
+    val it = sortKeys.iterator()
+    while (it.hasNext()) {
+      val sortKeyValue = it.next()
+      if (dbg)
+        log(s"deleteItems - tableName=$tableName, rowKey=$rowKeyValue, sortKey=$sortKeyValue")
+      try {
+        dynamoDeleteRow(tableName, rowKey, rowKeyValue, sortKey, sortKeyValue)
+      } catch {
+        case ase: AmazonServiceException => throw ase
+        case ace: AmazonClientException  => throw ace
+        case ex: Exception => {
+          val sw = new StringWriter
+          ex.printStackTrace(new PrintWriter(sw))
+          log("Exception in getDynamoItemsWithMatchedRegex, stacktrace: " + sw.toString())
+        }
+      }
+    }
+  }
+
+  /**
+   * Function to delete row of table by rowkey and sortkey
+   */
+  def deleteItem(tableName: String, rowKey: String, rowKeyValue: String, sortKey: String, sortKeyValue: String) {
+    log(s"deleteItem - tableName=$tableName, rowKey=$rowKeyValue, sortKey name=$sortKey, sortKeyValue=$sortKeyValue")
+    try {
+      dynamoDeleteRow(tableName, rowKey, rowKeyValue, sortKey, sortKeyValue)
+    } catch {
+      case ase: AmazonServiceException => throw ase
+      case ace: AmazonClientException  => throw ace
+      case ex: Exception => {
+        val sw = new StringWriter
+        ex.printStackTrace(new PrintWriter(sw))
+        log("Exception in getDynamoItemsWithMatchedRegex, stacktrace: " + sw.toString())
+      }
+    }
+  }
+
+  def deleteItemsByList(tableName: String, rowkey: String, items: Set[String]) {
+    for (item <- items) {
+      if (dbg)
+        log(s"deleteItemsByList - tableName=$tableName, $rowkey=$item")
+      try {
+        dynamoDeleteRow(tableName, rowkey, item)
+      } catch {
+        case ase: AmazonServiceException => throw ase
+        case ace: AmazonClientException  => throw ace
+        case ex: Exception => {
+          val sw = new StringWriter
+          ex.printStackTrace(new PrintWriter(sw))
+          log("Exception in getDynamoItemsWithMatchedRegex, stacktrace: " + sw.toString())
+        }
+      }
+    }
+  }
+
+  def deleteItemsByList(tableName: String, rowkey: String, items: ArrayList[String]) {
+    for (item <- items) {
+      if (dbg)
+        log(s"deleteItemsByList - tableName=$tableName, $rowkey=$item")
+      try {
+        dynamoDeleteRow(tableName, rowkey, item)
+      } catch {
+        case ase: AmazonServiceException => throw ase
+        case ace: AmazonClientException  => throw ace
+        case ex: Exception => {
+          val sw = new StringWriter
+          ex.printStackTrace(new PrintWriter(sw))
+          log("Exception in getDynamoItemsWithMatchedRegex, stacktrace: " + sw.toString())
+        }
+      }
+    }
+  }
+
+  /**
+   * Deprecated
+   * Function to get ticket table rows by rowkey and list of attributes having regex in their name
+   */
+  @throws(classOf[Exception])
+  def getDynamoItemsWithMatchedRegex(tableName: String, rowKey: String, rowKeyValue: String, messageType: String, messageTypeValue: String, regex: String) = {
+    // query ticket tables for records with ticketId
+    log(s"getDynamoItemsWithMatchedRegex: tableName: $tableName, rowKey: $rowKey, rowKeyValue: $rowKeyValue, messageType: $messageType, messageTypeValue: $messageTypeValue, regex: $regex")
+    var results = new LinkedHashMap[String, Object]
+    var elems = new ArrayList[String]()
+    try {
+      results = dynamoGetRowAllVersions(tableName, this.rowkey, rowKeyValue, messageType, messageTypeValue, 1)(0)
+      if (results != null) {
+        if (dbg)
+          log(s"getDynamoItemsWithMatchedRegex: result: " + results.toString())
+        for ((k, v) <- results) {
+          if (k.toString().contains(regex)) {
+            if (dbg)
+              log(s"getDynamoItemsWithMatchedRegex: $k - $v")
+            val item = k.toString().split("_")(0)
+            elems.add(item)
+          }
+        }
+      }
+    } catch {
+      case ase: AmazonServiceException => throw ase
+      case ace: AmazonClientException  => throw ace
+      case ex: Exception => {
+        val sw = new StringWriter
+        ex.printStackTrace(new PrintWriter(sw))
+        log("Exception in getDynamoItemsWithMatchedRegex, stacktrace: " + sw.toString())
+      }
+    }
+    (results, elems)
+  }
+
+  /**
+   * Function to get all rows given rowkey, message type
+   * @results: all rows given rowkey (includes master row)
+   * @oopIds: list of oopids associating with rowkey
+   */
+  @throws(classOf[Exception])
+  def getTicketRows(tableName: String, rowKey: String, rowKeyValue: String) = {
+    log(s"getTicketRows: tableName: $tableName, rowKey: $rowKey, rowKeyValue: $rowKeyValue")
+    var results = new ArrayList[LinkedHashMap[String, Object]]()
+
+    try {
+      results = dynamoGetRows(tableName, rowKey, rowKeyValue, 0); //; get all rows given rowkey
+    } catch {
+      case ase: AmazonServiceException => throw ase
+      case ace: AmazonClientException  => throw ace
+      case ex: Exception => {
+        val sw = new StringWriter
+        ex.printStackTrace(new PrintWriter(sw))
+        log("Exception in getTicketRows, stacktrace: " + sw.toString())
+      }
+    }
+    (results)
+  }
+
+  /**
+   * extract master row and its oopid list given messageType
+   * sortKey:
+   * colFamily: "e,w,r,rx,rt,t"
+   * results: list of master rows
+   * oopIds: list of oopids
+   */
+  def extractTicketRows(tableName: String, sortKey: String, colFamily: String, rows: ArrayList[LinkedHashMap[String, Object]]) = {
+    var results = new ArrayList[LinkedHashMap[String, Object]]()
+    var oopIds = Set[String]()
+
+    if (rows != null) {
+      for (row <- rows) {
+        // extract master row
+        if (row.get(sortKey).toString.startsWith(colFamily + "_")) {
+          results.add(row)
+          // get oopid from master row
+          if (row.get("oopid") != null)
+            oopIds.add(row.get("oopid").toString)
+        }
+      }
+    }
+    if (dbg)
+      log(s"extractTicketRows: oopIds: " + oopIds.toString())
+
+    (results, oopIds)
+  }
+
+  /**
+   * Function to get ticket table rows and oopid by rowkey, message type
+   * @results: latest version given rowkey for t message;  for non-t messages, it hold latest versions given <rowkey,oopid>
+   * @oopIds: list of oopids associating with rowkey
+   */
+  @throws(classOf[Exception])
+  def getTicketRowsAndOopIds(tableName: String, rowKey: String, rowKeyValue: String, messageType: String, messageTypeValue: String) = {
+    log(s"getTicketRowsAndOopIds: tableName: $tableName, rowKey: $rowKey, rowKeyValue: $rowKeyValue, messageType: $messageType, messageTypeValue: $messageTypeValue")
+    var results = new ArrayList[LinkedHashMap[String, Object]]()
+    var latestVersionResults = new ArrayList[LinkedHashMap[String, Object]]() //non-t-messages, latest version given <rowkey, oopid, messagetype>
+    var oopIds = Set[String]()
+    try {
+      //if (messageTypeValue == "TCMS2_Publish_Ticket") {
+      results = dynamoGetRowAllVersions(tableName, rowKey, rowKeyValue, messageType, messageTypeValue, 0)
+
+      // for non-t-messages
+      if (results != null) {
+        // get all oopids inside results
+        for (row <- results) {
+          if (row.get("oopid") != null) {
+            var id = row.get("oopid").toString()
+            oopIds.add(id)
+          }
+        }
+
+        if (dbg)
+          log(s"getTicketRowsAndOopIds: oopIds: " + oopIds.toString())
+
+        for (id <- oopIds) {
+          // get latest version given <rowkey, oopid, messagetype>
+          var row = dynamoGetRowAllVersionsWithOopId(tableName, rowKey, rowKeyValue, messageType, messageTypeValue, "oopid", id, 1).get(0)
+          latestVersionResults.add(row)
+        }
+
+      }
+    } catch {
+      case ase: AmazonServiceException => throw ase
+      case ace: AmazonClientException  => throw ace
+      case ex: Exception => {
+        val sw = new StringWriter
+        ex.printStackTrace(new PrintWriter(sw))
+        log("Exception in getTicketRowsAndOopIds, stacktrace: " + sw.toString())
+      }
+    }
+    (latestVersionResults, oopIds)
+  }
+
+  /**
+   *
+   * Function to get deviceId by rowkey, message type (t-message)
+   * colFamily: "t"
+   */
+  @throws(classOf[Exception])
+  def getDeviceId(tableName: String, sortKey: String, colFamily: String, rows: ArrayList[LinkedHashMap[String, Object]]) = {
+    var result = new LinkedHashMap[String, Object]()
+    var dvcId = ""
+
+    if (rows != null) {
+      breakable {
+        for (row <- rows) {
+          // extract master row of t message (there is only 1 master row for t)
+          if (row.get(sortKey).toString.startsWith(colFamily)) {
+            // get d_id from master row
+            if (row.get("d_id") != null) {
+              dvcId = row.get("d_id").toString
+              if (dbg)
+                log(s"getDeviceId: row:${row}, dvcId: ${dvcId.toString}")
+            }
+            result = row
+            break
+          }
+        }
+      }
+    }
+
+    log(s"getDeviceId: no dvcId found ")
+    (result, dvcId)
+  }
+
+  /**
+   * Deprecated
+   * Function to copy records from one table to another one
+   */
+  @throws(classOf[Exception])
+  def copyRecordsFromCallBackTableToCallBackHistoryTable(fromTableName: String, rowKey: String, rowKeyValue: String, sortKey: String, toTableName: String): ArrayList[String] = {
+    log(f"copyRecordsFromCallBackTableToCallBackHistoryTable fromTableName=$fromTableName, $rowKey=$rowKeyValue, sortKey=$sortKey, toTableName=$toTableName")
+    var rows = new ArrayList[LinkedHashMap[String, Object]]()
+    var sortKeys = new ArrayList[String]()
+
+    try {
+      // get rows from source table
+      rows = dynamoGetRows(fromTableName, rowKey, rowKeyValue, 0)
+      for (row <- rows) {
+        sortKeys.add(row.get(sortKey).toString())
+
+        var callIdValue = row.get(sortKey).toString()
+        row.remove(sortKey)
+        row.remove(rowKey)
+
+        //row.put("callid", callIdValue)
+
+        if (dbg)
+          log(f"copyRecordsFromCallBackTableToCallBackHistoryTable - row to be inserted into $toTableName: ${row.toString()} with callid=$callIdValue")
+
+        // insert into destination table
+        dynamoPutRow(toTableName, rowKey, rowKeyValue, "callid", callIdValue, row)
+        putDynamoKeys(s"${toTableName}~${rowKeyValue}")
+      }
+    } catch {
+      case ase: AmazonServiceException => throw ase
+      case ace: AmazonClientException  => throw ace
+      case ex: Exception => {
+        val sw = new StringWriter
+        ex.printStackTrace(new PrintWriter(sw))
+        log("Exception in getTicketRowsAndOopIds, stacktrace: " + sw.toString())
+      }
+    }
+
+    return sortKeys
+  }
+
+  /**
+   * Function to handle purge case for Callback table
+   */
+  @throws(classOf[Exception])
+  def handlePurgeOnCallbackData(srcTableName: String, destTableName: String, rowKeyValue: String, sortKey: String, destSortKey: String, ticketNumMapkey: String, lmdtValue: String): ArrayList[String] = {
+
+    // var sortKeys = copyRecordsFromCallBackTableToCallBackHistoryTable(srcTableName, this.rowkey, rowKeyValue, sortKey, destTableName)
+
+    log(f"handlePurgeOnCallbackData fromTableName=$srcTableName, ${this.rowkey}=rowKeyValue, sortKey=$sortKey, toTableName=$destTableName, destSortKey=$destSortKey, ticketNumMapkey=$ticketNumMapkey")
+    var rows = new ArrayList[LinkedHashMap[String, Object]]()
+    var sortKeys = new ArrayList[String]()
+
+    try {
+      // get rows from source table
+      rows = dynamoGetRows(srcTableName, this.rowkey, rowKeyValue, 0)
+      log(f"handlePurgeOnCallbackData: #records in $srcTableName: ${rows.size}")
+      for (row <- rows) {
+
+        var callIdValue = row.get(sortKey).toString()
+        // add sort key to list to be deleted later on
+        sortKeys.add(callIdValue)
+
+        // remove sort key, row key from map
+        row.remove(sortKey)
+        row.remove(this.rowkey)
+        if (dbg) {
+          log(f"handlePurgeOnCallbackData - row to be inserted into $destTableName: ${row.toString()} with $destSortKey=$callIdValue")
+        }
+        if (row.containsKey("lmdt")) row.put("lmdt", lmdtValue)
+        // insert into destination table
+        dynamoPutRow(destTableName, this.rowkey, ticketNumMapkey, destSortKey, callIdValue, row)
+        putDynamoKeys(s"${destTableName}~${ticketNumMapkey}-${callIdValue}")
+      }
+    } catch {
+      case ase: AmazonServiceException => throw ase
+      case ace: AmazonClientException  => throw ace
+      case ex: Exception => {
+        val sw = new StringWriter
+        ex.printStackTrace(new PrintWriter(sw))
+        log("Exception in getTicketRowsAndOopIds, stacktrace: " + sw.toString())
+      }
+    }
+
+    return sortKeys
+  }
+
+  /**
+   * Function to handle purge case for Call table
+   */
+  @throws(classOf[Exception])
+  def handlePurgeOnCallData(srcTableName: String, destTableName: String, rowKeyValue: String, sortKey: String, destSortKey: String, ticketNum: String, ticketNumMapkey: String, lmdtValue: String): ArrayList[String] = {
+
+    log(f"handlePurgeOnCallData fromTableName=$srcTableName, ${this.rowkey}=rowKeyValue, sortKey=$sortKey, toTableName=$destTableName, destSortKey=$destSortKey, ticketNumMapkey=$ticketNumMapkey")
+    var rows = new ArrayList[LinkedHashMap[String, Object]]()
+    var sortKeys = new ArrayList[String]()
+
+    // get rows from source table
+    rows = dynamoGetRows(srcTableName, this.rowkey, rowKeyValue, 0)
+    log(f"handlePurgeOnCallData: #records in $srcTableName: ${rows.size}")
+    for (row <- rows) {
+
+      var sortKeyValue = row.get(sortKey).toString()
+      // add sort key to list to be deleted later on
+      sortKeys.add(sortKeyValue)
+
+      // remove sort key, row key from map
+      row.remove(sortKey)
+      row.remove(this.rowkey)
+
+      // add ticket number
+      row.put("t_num", ticketNum)
+
+      if (dbg) {
+        log(f"handlePurgeOnCallData - row to be inserted into $destTableName: ${row.toString()} with $destSortKey=$sortKeyValue")
+      }
+
+      if (row.containsKey("lmdt")) row.put("lmdt", lmdtValue)
+      // insert into destination table
+      dynamoPutRow(destTableName, this.rowkey, ticketNumMapkey, destSortKey, sortKeyValue, row)
+      putDynamoKeys(s"${destTableName}~${ticketNumMapkey}-${sortKeyValue}")
+    }
+
+    return sortKeys
+  }
+
+  /**
+   * Function to print out list of elements
+   */
+  def printList(listName: String, items: ArrayList[String]) {
+    var it = items.iterator()
+    log(f"listName: $listName")
+    while (it.hasNext()) {
+      log(f"elem: " + it.next())
+    }
+  }
+
+  /**
+   * Function to process purge ticket
+   */
+  def purgeTicket(ticketId: String, ticketNumMapkey: String) {
+
+    log(s"invoked purgeTicket: $ticketId, ticketNumMapkey: $ticketNumMapkey")
+    val rowKeyPrefix = ticketId
+    var dvcId = ""
+
+    try {
+      log(s"1. PURGE - Get related items from ticket table to be purged; at ${getNowDetailed("MM/dd/yyyy hh:mm:ss")}")
+      val messageTypeColumn = "message_type"
+      var messageTypeValue = this.messageType
+
+      var ticketTableRows = getTicketRows(ticketTable, this.rowkey, ticketId)
+
+      if (ticketTableRows.size > 0) {
+
+        // TCMS2_Publish_Repair_Action, id_ts
+        messageTypeValue = "TCMS2_Publish_Repair_Action"
+        var (rTickets, rDeleteList) = extractTicketRows(ticketTable, this.sortKey, getColFamilyFromMessageType(messageTypeValue), ticketTableRows)
+
+        // TCMS2_Publish_Replace_Meter_Repair_Action, id_ts
+        messageTypeValue = "TCMS2_Publish_Replace_Meter_Repair_Action"
+        var (rmTickets, rmDeleteList) = extractTicketRows(ticketTable, this.sortKey, getColFamilyFromMessageType(messageTypeValue), ticketTableRows)
+
+        // TCMS2_Publish_Replace_Transformer_Repair_Action, id_ts
+        messageTypeValue = "TCMS2_Publish_Replace_Transformer_Repair_Action"
+        var (rxTickets, rxDeleteList) = extractTicketRows(ticketTable, this.sortKey, getColFamilyFromMessageType(messageTypeValue), ticketTableRows)
+
+        // TCMS2_Publish_Work_Request; id_ts
+        messageTypeValue = "TCMS2_Publish_Work_Request"
+        var (wTickets, wDeleteList) = extractTicketRows(ticketTable, this.sortKey, getColFamilyFromMessageType(messageTypeValue), ticketTableRows)
+
+        // TCMS2_Publish_Event_log;
+        messageTypeValue = "TCMS2_Publish_Event_log"
+        var (eTickets, eDeleteList) = extractTicketRows(ticketTable, this.sortKey, getColFamilyFromMessageType(messageTypeValue), ticketTableRows)
+
+        // TCMS2_Publish_Ticket
+        messageTypeValue = "TCMS2_Publish_Ticket"
+        var (tTicket, dvcId) = getDeviceId(ticketTable, this.sortKey, getColFamilyFromMessageType(messageTypeValue), ticketTableRows)
+        //var (tTicket, dvcId) = getDeviceId(ticketTable, this.rowkey, ticketId, messageTypeColumn, messageTypeValue)
+
+        log(s"2. PURGE - Delete all versions of $ticketId in $ticketTable; at ${getNowDetailed("MM/dd/yyyy hh:mm:ss")}")
+        var items = new ArrayList[String]()
+        for (row <- ticketTableRows) {
+          var rowKeyValue = row.get(this.rowkey).toString
+          var sortKeyValue = row.get(this.sortKey).toString
+          items.add(rowKeyValue)
+          items.add(sortKeyValue)
+          //deleteDynamoRow(ticketTable, this.rowkey, rowKeyValue, sortKey, sortKeyValue, messageTypeColumn, "", false)
+        }
+        callDynamoBatchDelete(ticketTable, this.rowkey, this.sortKey, items, "purgeTicket")
+
+        log(s"3. PURGE - Copy the ticket row to ticket history table; at ${getNowDetailed("MM/dd/yyyy hh:mm:ss")}")
+        var ticketHistoryInsert = new ArrayList[LinkedHashMap[String, Object]]()
+
+        val lmdtValue = getNow()
+        if (rTickets != null) {
+          log("rTickets " + rTickets.size())
+          for (ticket <- rTickets) {
+            var messageTypeValue = getMessageTypeFromColFamily(ticket.get(messageTypeColumn).toString())
+            var sortKeyValue = messageTypeValue + "_" + ticket.get("ts").toString() // the ts in master row is part of sort key of latest version
+            if (ticket.containsKey("lmdt")) ticket.put("lmdt", lmdtValue)
+            ticket.put(this.rowkey, ticketNumMapkey)
+            ticket.put(this.sortKey, sortKeyValue)
+            ticket.put(messageTypeColumn, messageTypeValue)
+            ticketHistoryInsert.add(ticket)
+          }
+        }
+        if (rmTickets != null) {
+          log("rmTickets " + rmTickets.size())
+          for (ticket <- rmTickets) {
+            var messageTypeValue = getMessageTypeFromColFamily(ticket.get(messageTypeColumn).toString())
+            var sortKeyValue = messageTypeValue + "_" + ticket.get("ts").toString()
+            if (ticket.containsKey("lmdt")) ticket.put("lmdt", lmdtValue)
+            ticket.put(this.rowkey, ticketNumMapkey)
+            ticket.put(this.sortKey, sortKeyValue)
+            ticket.put(messageTypeColumn, messageTypeValue)
+            ticketHistoryInsert.add(ticket)
+          }
+        }
+        if (rxTickets != null) {
+          log("rxTickets " + rxTickets.size())
+          for (ticket <- rxTickets) {
+            var messageTypeValue = getMessageTypeFromColFamily(ticket.get(messageTypeColumn).toString())
+            var sortKeyValue = messageTypeValue + "_" + ticket.get("ts").toString()
+            if (ticket.containsKey("lmdt")) ticket.put("lmdt", lmdtValue)
+            ticket.put(this.rowkey, ticketNumMapkey)
+            ticket.put(this.sortKey, sortKeyValue)
+            ticket.put(messageTypeColumn, messageTypeValue)
+            ticketHistoryInsert.add(ticket)
+          }
+        }
+        if (wTickets != null) {
+          log("wTickets " + wTickets.size())
+          for (ticket <- wTickets) {
+            var messageTypeValue = getMessageTypeFromColFamily(ticket.get(messageTypeColumn).toString())
+            var sortKeyValue = messageTypeValue + "_" + ticket.get("ts").toString()
+            if (ticket.containsKey("lmdt")) ticket.put("lmdt", lmdtValue)
+            ticket.put(this.rowkey, ticketNumMapkey)
+            ticket.put(this.sortKey, sortKeyValue)
+            ticket.put(messageTypeColumn, messageTypeValue)
+            ticketHistoryInsert.add(ticket)
+          }
+        }
+        if (eTickets != null) {
+          log("eTickets " + eTickets.size())
+          for (ticket <- eTickets) {
+            var messageTypeValue = getMessageTypeFromColFamily(ticket.get(messageTypeColumn).toString())
+            var sortKeyValue = messageTypeValue + "_" + ticket.get("ts").toString()
+            if (ticket.containsKey("lmdt")) ticket.put("lmdt", lmdtValue)
+            ticket.put(this.rowkey, ticketNumMapkey)
+            ticket.put(this.sortKey, sortKeyValue)
+            ticket.put(messageTypeColumn, messageTypeValue)
+            ticketHistoryInsert.add(ticket)
+          }
+        }
+        if (tTicket != null) {
+          log(s"tTicket: ${tTicket.size}")
+          var messageTypeValue = getMessageTypeFromColFamily(tTicket.get(messageTypeColumn).toString())
+          var sortKeyValue = messageTypeValue + "_" + tTicket.get("ts").toString()
+          tTicket.put("oopid", ticketId)
+          if (tTicket.containsKey("lmdt")) tTicket.put("lmdt", lmdtValue)
+          tTicket.put(this.rowkey, ticketNumMapkey)
+          tTicket.put(this.sortKey, sortKeyValue)
+          tTicket.put(messageTypeColumn, messageTypeValue)
+          ticketHistoryInsert.add(tTicket)
+        }
+        callDynamoBatchPut(ticketHistoryTable, this.rowkey, this.sortKey, ticketHistoryInsert, "purgeTicket")
+
+        log(s"4. PURGE - Insert to $tktNumToKeyTable; at ${getNowDetailed("MM/dd/yyyy hh:mm:ss")}")
+        var tktNumToKeyMap = new LinkedHashMap[String, Object]
+        tktNumToKeyMap.put("tktid", ticketNumMapkey)
+        tktNumToKeyMap.put("lmdt", lmdtValue)
+        dynamoPutRow(tktNumToKeyTable, this.rowkey, ticketNumMapkey, tktNumToKeyMap)
+        //putDynamoKeys(s"${tktNumToKeyTable}~${ticketNumMapkey}")
+
+        log(s"5. PURGE - Copy records from $callbackTable to $callbackHistoryTable; at ${getNowDetailed("MM/dd/yyyy hh:mm:ss")}")
+        var cbDeleteList = handlePurgeOnCallbackData(callbackTable, callbackHistoryTable, ticketId, "callbackid", "callid", ticketNumMapkey, lmdtValue)
+
+        log(s"6. PURGE - Copy records from $callTable to $callHistoryTable; at ${getNowDetailed("MM/dd/yyyy hh:mm:ss")}")
+        var ticketNum = ticketNumMapkey.split("_")(1)
+        var cDeleteList = handlePurgeOnCallData(callTable, callHistoryTable, ticketId, "call_id", "call_id", ticketNum, ticketNumMapkey, lmdtValue)
+
+        log(s"7. PURGE - Delete records on $callbackTable; at ${getNowDetailed("MM/dd/yyyy hh:mm:ss")}")
+        if (dbg)
+          log(s"cbDeleteList: ${cbDeleteList.toString}")
+        deleteItems(callbackTable, this.rowkey, ticketId, "callbackid", cbDeleteList)
+
+        log(s"8. PURGE - Delete records on $callTable; at ${getNowDetailed("MM/dd/yyyy hh:mm:ss")}")
+        if (dbg)
+          log(s"cDeleteList: ${cDeleteList.toString}")
+        deleteItems(callTable, this.rowkey, ticketId, "call_id", cDeleteList)
+
+        log(s"9. PURGE -Delete records in $objMapTable; at ${getNowDetailed("MM/dd/yyyy hh:mm:ss")}")
+        log(s"rDeleteList ${rDeleteList.size}")
+        deleteItemsByList(objMapTable, this.rowkey, rDeleteList)
+        log(s"rmDeleteList ${rmDeleteList.size}")
+        deleteItemsByList(objMapTable, this.rowkey, rmDeleteList)
+        log(s"rxDeleteList ${rxDeleteList.size}")
+        deleteItemsByList(objMapTable, this.rowkey, rxDeleteList)
+        log(s"wDeleteList ${wDeleteList.size}")
+        deleteItemsByList(objMapTable, this.rowkey, wDeleteList)
+        log(s"cDeleteList ${cDeleteList.size}")
+        deleteItemsByList(objMapTable, this.rowkey, cDeleteList)
+
+        log(s"10. PURGE - Delete the tickets from $ticketBridgeTable; at ${getNowDetailed("MM/dd/yyyy hh:mm:ss")}")
+        if (dvcId != "") {
+          deleteItem(ticketBridgeTable, this.rowkey, s"tkt_$ticketId", "sortkey", dvcId)
+          deleteItem(ticketBridgeTable, this.rowkey, s"dvc_$dvcId", "sortkey", ticketId)
+        }
+        if (dynamoGetRow(ticketBridgeTable, this.rowkey, s"loc_$ticketId", "sortkey", ticketId) != null)
+          deleteItem(ticketBridgeTable, this.rowkey, s"loc_$ticketId", "sortkey", ticketId)
+      } else {
+        log(s"purgeTicket: no rows for ticket $ticketId")
+      }
+    } catch {
+      case ase: AmazonServiceException => throw ase
+      case ace: AmazonClientException  => throw ace
+      case e: Exception => {
+        val sw = new StringWriter
+        e.printStackTrace(new PrintWriter(sw))
+        log(s"purgeTicket: TicketId: $ticketId, Msg : $e, trace: " + sw.toString)
+        throw new ticketException("e", s"purgeTicket  exception. TicketId: $ticketId, ticketNumMapkey: $ticketNumMapkey, Msg : $e", "purgeTicket")
+      }
+    }
+
+  }
+
+  /**
+   * Wrapper to Dynamo function to search attribute by regex and delete found attribute in Ticket table
+   *
+   */
+  @throws(classOf[Exception])
+  def deleteDynamoColumn(tableName: String, rowKey: String, rowKeyValue: String, sortKey: String, messageType: String, messageTypeValue: String, columnName: String) {
+    if (dbg)
+      log(s"deleteDynamoColumn: tableName=$tableName, rowKey=$rowKey, rowKeyValue=$rowKeyValue, sortKey=$sortKey, messageType=$messageType, messageTypeValue=$messageTypeValue, columnName=$columnName")
+
+    dynamoDeleteAttributeAllVersions(tableName, rowKey, rowKeyValue, sortKey, messageType, messageTypeValue, columnName)
+  }
+
+  /**
+   * Wrapper to Dynamo function to delete row in Ticket table
+   *
+   */
+  @throws(classOf[Exception])
+  def deleteDynamoRow(tableName: String, rowKey: String, rowKeyValue: String, sortKey: String, sortKeyValue: String, messageType: String, messageTypeValue: String, deleteAllVersions: Boolean) {
+    if (dbg)
+      log(s"deleteDynamoRow: tableName=$tableName, rowKey=$rowKey, rowKeyValue=$rowKeyValue, sortKey=$sortKey, sortKeyValue=$sortKeyValue, messageType=$messageType, messageTypeValue=$messageTypeValue, deleteAllVersions=$deleteAllVersions")
+    try {
+      if (deleteAllVersions)
+        dynamoDeleteAllVersions(tableName, rowKey, rowKeyValue, sortKey, messageType, messageTypeValue)
+      else
+        dynamoDeleteRow(tableName, rowKey, rowKeyValue, sortKey, sortKeyValue)
+    } catch {
+      case ase: AmazonServiceException => throw ase
+      case ace: AmazonClientException  => throw ace
+      case e: Exception => {
+        val sw = new StringWriter
+        e.printStackTrace(new PrintWriter(sw))
+        log(s"deleteDynamoRow: Msg : $e, trace: " + sw.toString)
+      }
+    }
+  }
+
+  /**
+   * Deprecated
+   * Wrapper to Dynamo function to search attribute by regex and delete found attribute in Ticket table
+   *
+   */
+  @throws(classOf[Exception])
+  def invokeDynamoSearchAndDeleteElements(tableName: String, rowkey: String, rowkeyValue: String, sortkey: String, messageType: String, messageTypeValue: String, attributePrefix: String, componentId: String) {
+    if (dbg)
+      log(s"invokeDynamoSearchAndDeleteElements: tableName=$tableName, rowkey=$rowkey, rowkeyValue=$rowkeyValue, sortkey=$sortkey, messageType=$messageType, messageTypeValue=$messageTypeValue, attributePrefix=$attributePrefix, componentId=$componentId")
+    // search records based on <rowkey, message_type, componentId> and delete component's elements (po_*, ie_*) based on componentId from that po, ie lists
+    dynamoSearchAndDeleteElements(tableName, rowkey, rowkeyValue, sortkey, messageType, messageTypeValue, attributePrefix, componentId);
+  }
+
+  def getMessageTypeFromColFamily(colFamily: String): String = {
+    var messageType = "TCMS2_Publish_Ticket"
+
+    if (colFamily == "e")
+      messageType = "TCMS2_Publish_Event_log"
+    else if (colFamily == "r")
+      messageType = "TCMS2_Publish_Repair_Action"
+    else if (colFamily == "rm")
+      messageType = "TCMS2_Publish_Replace_Meter_Repair_Action"
+    else if (colFamily == "rx")
+      messageType = "TCMS2_Publish_Replace_Transformer_Repair_Action"
+    else if (colFamily == "t")
+      messageType = "TCMS2_Publish_Ticket"
+    else if (colFamily == "w")
+      messageType = "TCMS2_Publish_Work_Request"
+
+    return messageType
+  }
+
+  def getColFamilyFromMessageType(messageType: String): String = {
+    var col = "TCMS2_Publish_Ticket"
+
+    if (messageType == "TCMS2_Publish_Event_log")
+      col = "e"
+    else if (messageType == "TCMS2_Publish_Repair_Action")
+      col = "r"
+    else if (messageType == "TCMS2_Publish_Replace_Meter_Repair_Action")
+      col = "rm"
+    else if (messageType == "TCMS2_Publish_Replace_Transformer_Repair_Action")
+      col = "rx"
+    else if (messageType == "TCMS2_Publish_Ticket")
+      col = "t"
+    else if (messageType == "TCMS2_Publish_Work_Request")
+      col = "w"
+
+    return col
+  }
+
+  /**
+   * Wrapper to Dynamo function to handle Dynamo delete operations
+   *
+   */
+  // e.g., deleteFromDynamo(ticketTable, rowkey, colPrefix, colName.toString, childId)
+  def deleteFromDynamo(tableName: String, rowKey: String, rowKeyValue: String, sortKey: String, sortKeyValue: String, colFamily: String = "", objectID: String = "", colName: String = "", componentID: String = "", row_elem: LinkedHashMap[String, Object]) = {
+    try {
+
+      log(s"deleteFromDynamo: tableName: $tableName, rowKey: $rowKey, rowKeyValue: $rowKeyValue, sortKey: $sortKey, sortKeyValue:$sortKeyValue, colFamily: $colFamily, objectID: $objectID, colName: $colName, componentID: $componentID") // deleteFromDynamo: tableName: en411-pd-tcms-ticket-cr-test, rowKey: Rowkey, rowKeyValue: 25759441, sortKey: message_type_ts, sortKeyValue:TCMS2_Publish_Ticket, colFamily: t, objectID: po_145396349, colName: po_145396349_cid, componentID: 145396349
+
+      if (objectID == "" && (colFamily != "" && colName != "")) {
+        // delete a specific column
+        log("deleteFromDynamo: delete a specific column")
+        var messageTypeValue = getMessageTypeFromColFamily(colFamily)
+        deleteDynamoColumn(tableName, rowKey, rowKeyValue, sortKey, "message_type", messageTypeValue, colName)
+      } else if (objectID == "" && colFamily == "" && colName == "") {
+        // delete entire row
+        log("deleteFromDynamo: delete entire row")
+        deleteDynamoRow(tableName, rowKey, rowKeyValue, sortKey, sortKeyValue, "", "", false)
+      } else if (objectID != "" && componentID != "" && colFamily != "") {
+        // remove a component from a child object
+        log("deleteFromDynamo: delete child objects")
+        // Delete a componentId from specific listl e.g., po list: "po_cid": [ "145364613","145364614" ], "po_d": [  "89", "90" ], "po_pc": [  "89", "90" ], "po_pd": [  "08/10/2021 03:06:00", "08/10/2021 04:06:00"" ]
+        var column = ""
+        if (objectID.startsWith("po_"))
+          column = "po_cid"
+        else if (objectID.startsWith("ie_"))
+          column = "ie_cid"
+
+        log(s"deleteFromDynamo: componentId=${componentID}")
+        componentIds.add(componentID)
+        componentColumns.add(column)
+        //componentColumn = column
+        //callDynamoPutRowTicketTableWithComponentRemoved(ticketTable, rowKey, rowKeyValue, column, componentID, row_elem, updateAddDeleteCase, "deleteFromDynamo")
+      }
+
+    } catch {
+      case ase: AmazonServiceException => throw ase
+      case ace: AmazonClientException  => throw ace
+      case e: Exception => {
+        throw new ticketException("e", s"Delete exception $tableName : $rowkey : $objectID : $colName : $componentID . Msg : $e", "deleteFromDynamo")
+      }
+    }
+  }
+
+  /**
+   * Function to get the column name from the lookup json
+   *
+   */
+  def getColumnDetails(objectPath: String) = {
+    val trimObjectPath = objectPath.trim()
+    try {
+      var colName = (columnLkpJson \\ trimObjectPath \ "columnName").extract[String]
+      var colFamily = (columnLkpJson \\ trimObjectPath \ "columnFamily").extract[String]
+      (colName, colFamily)
+      // }
+    } catch {
+      case e: Exception =>
+        if (!(objectPath contains ("targetId")) && !(objectPath contains ("componentId")) && !(objectPath contains ("ticketId"))) {
+          throw new ticketException("e", s"Could not find : $objectPath", "getColumnDetails")
+          ("", "")
+        } else
+          ("", "")
+    }
+  }
+
+  /**
+   * Function to process JSON elements of Kafka message
+   *
+   */
+  def putTicketElement(msgType: String, parentHierarchy: String, childId: String = "", value: String, rowkeyValue: String, oper: String = ""): Unit = {
+    var colPrefix = ""
+
+    //if (dbg)
+    //  log(s"putTicketElement: msgType=$msgType, parentHierarchy=$parentHierarchy, childId=$childId, value=$value, rowkey=$rowkeyValue, oper=$oper")
+
+    var (colName, colFamily) = getColumnDetails(parentHierarchy)
+
+    //if (dbg)
+    //  log(s"putTicketElement: msgType: $msgType, chilId: $childId, colName:$colName, value:$value, colFamily: $colFamily")
+    //var addedFlag = false
+    if (msgType == "T") { // ticket object
+      if (childId != "") {
+        colName = "id_".r.replaceAllIn(colName, childId + "_") //replace id_ in the column name with the objectId of child object
+      }
+    }
+
+    if (colFamily != "") {
+      if (oper == "REMOVE") {
+        if (dbg)
+          log("putTicketElement, oper: " + oper)
+        if (msgType == "T") {
+          //note: Ticket delete components are TMPartOn and TMItrEtrEntry
+          if (parentHierarchy contains "TMPartOn") {
+            colPrefix = "po_" + childId
+          } else if (parentHierarchy contains "TMItrEtrEntry") {
+            colPrefix = "ie_" + childId
+          }
+          try {
+            // delete from ticket table
+            deleteFromDynamo(ticketTable, this.rowkey, rowkeyValue, this.sortKey, this.messageType, colFamily, colPrefix, colName.toString, childId, row_elem)
+          } catch {
+            case ase: AmazonServiceException => throw ase
+            case ace: AmazonClientException  => throw ace
+            case te: ticketException         => throw te
+            case ex: Exception               => throw new ticketException("e", s"Error deleting - $ticketTable:$rowkeyValue:$colPrefix:$colName:$childId", "putTicketElement")
+          }
+        }
+      } else {
+        if (dbg)
+          log(s"putTicketElement: Putting to row_elem map: colName:$colName, value:$value, colFamily: $colFamily")
+
+        if (colName == "d_cdi" || colName == "d_ppds") {
+          var formattedValue = value.replace("List(", "")
+          formattedValue = formattedValue.replace(")", "")
+          var arrayValues = formattedValue.split(", ")
+          var values = arrayValues.toList.asJava
+          //println(f"colName=${colName},value=${value}, values=${values}")
+          row_elem.put(colName, values)
+        } else
+          row_elem.put(colName, value)
+
+        //If fpl device id, add the publish-timestamp as a new column
+        if (colFamily == "t" && colName == "d_id") {
+          var publishTime = Try((json \\ "MessageHeader" \ "stamp").extract[String]).getOrElse("")
+          //addRow.addColumn("t".getBytes(), "d_pts".getBytes(), publishTime.getBytes()) //d_pts = device-ID publish timestamp
+          row_elem.put("d_pts", publishTime)
+        }
+        //If interruption type, add the publish-timestamp as a new column
+        if (colFamily == "t" && colName == "it") {
+          var publishTime = Try((json \\ "MessageHeader" \ "stamp").extract[String]).getOrElse("")
+          //addRow.addColumn("t".getBytes(), "it_pts".getBytes(), publishTime.getBytes()) //it_pts = interruption-type publish timestamp
+          row_elem.put("it_pts", publishTime)
+        }
+      }
+    }
+  }
+
+  /**
+   * Function to insert the sequence number for Ordered collection of child objects - ITR-ETR & Part-On
+   */
+  def putTicketElementSequence(parentHierarchy: String, childId: String = "", seq: String) {
+    var colName = ""
+    if (childId != "") {
+      if (parentHierarchy contains "TMPartOn") {
+        if (dbg)
+          log("id: " + childId + ", po_seq: " + seq)
+        colName = "po_" + childId + "_seq"
+      } else if (parentHierarchy contains "TMItrEtrEntry") {
+        if (dbg)
+          log("id: " + childId + ", ie_seq: " + seq)
+        colName = "ie_" + childId + "_seq"
+      }
+      log(s"putTicketElementSequence: ${colName}: ${seq}")
+      row_elem.put(colName, seq)
+    }
+  }
+
+  def getRowWithLatestTicketNumberAndDate(ticketTable: String, rowkey: String, rowkeyValue: String, messageType: String, messageTypeValue: String): LinkedHashMap[String, Object] = {
+    log(s"getRowWithLatestTicketNumberAndDate: ticketTable: $ticketTable, rowkey: $rowkey, rowkeyValue: $rowkeyValue, messageType: $messageType, messageTypeValue: $messageTypeValue")
+    var rows = dynamoGetRowAllVersions(ticketTable, rowkey, rowkeyValue, messageType, messageTypeValue, 0)
+    //log(s"rows: $rows")
+    for (row <- rows) {
+      if (row.get("num") != null && row.get("tm") != null) {
+        return row
+      }
+    }
+    null
+  }
+
+  def getRowWithLatestZcdAndCcd(ticketTable: String, rowkey: String, rowkeyValue: String, messageType: String, messageTypeValue: String): LinkedHashMap[String, Object] = {
+    log(s"getRowWithLatestTicketNumberAndDate: ticketTable: $ticketTable, rowkey: $rowkey, rowkeyValue: $rowkeyValue, messageType: $messageType, messageTypeValue: $messageTypeValue")
+    var rows = dynamoGetRowAllVersions(ticketTable, rowkey, rowkeyValue, messageType, messageTypeValue, 0)
+    log(s"rows: $rows")
+    for (row <- rows) {
+      if (row.get("zcd") != null && row.get("ccd") != null) {
+        return row
+      }
+    }
+    null
+  }
+
+  /**
+   * Function to process purge message
+   */
+  def processPurge(purgeMsg: String) {
+    try {
+      //purge message has a format - ticket-oopid, ticket-number, ticket-datetime; e.g., <36593721,111,2021/07/04 04:05>
+      var splitPurgeMsg = purgeMsg.split(",")
+      var purge_oopid = splitPurgeMsg(0).trim()
+      var purge_num = splitPurgeMsg(1).trim()
+      var purge_stamp = splitPurgeMsg(2).trim()
+
+      if (dbg)
+        log("purge_oopid: " + purge_oopid + ", purge_num: " + purge_num + ", purge_stamp: " + purge_stamp)
+
+      var purgeTicketDateFormat = new java.text.SimpleDateFormat("yyyy/MM/dd hh:mm")
+      var purgeTicketDay = ymdFormat.format(purgeTicketDateFormat.parse(purge_stamp))
+
+      var ticketNum = ""
+      var ticketDate = ""
+      var ticketRow = new LinkedHashMap[String, Object]()
+      ticketRow = getRowWithLatestTicketNumberAndDate(ticketTable, this.rowkey, purge_oopid, "message_type", messageType)
+
+      if (ticketRow != null) {
+        if (ticketRow.get("num") != null && ticketRow.get("tm") != null) {
+          ticketNum = ticketRow.get("num").toString()
+          ticketDate = ticketRow.get("tm").toString()
+        }
+      }
+
+      if (dbg)
+        log("ticketNum: " + ticketNum + ", ticketDate: " + ticketDate)
+
+      var validNumber = false
+      var validDate = false
+
+      if (ticketNum == "" || ticketDate == "") {
+        log("No value in ticketNum or ticketDate")
+        putException(appname = appName, sjson = purgeMsg, logWriter = logWriter, server = server, tivoliSeverity = tivoliSeverity, severity = "w", tivoliTag = tivoliTag, tivoliEmail = tivoliEmail, msg = s"Ticket oopid : $purge_oopid", jsonMsgType = "", functionName = "processPurge", err = "Purge record not found")
+      } else {
+        //validate ticket number in the purge file
+        if (ticketNum != null) {
+          if (ticketNum.trim() == purge_num) validNumber = true
+        }
+
+        //validate create date in the purge file, ticket date format : MM/dd/yyyy hh:mm:ss
+        if (ticketDate != "") {
+          var ticketDateFormat = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm:ss")
+          var ticketDay = ymdFormat.format(ticketDateFormat.parse(ticketDate))
+
+          if (dbg)
+            log(s"purgeTicketDay: $purgeTicketDay, ticketDay: $ticketDay")
+
+          //purge file ticket-date format is yyyy/MM/dd hh:mm
+          if (ticketDay == purgeTicketDay)
+            validDate = true
+        }
+      }
+
+      if (validNumber && validDate) {
+        log(s"Writing to publish log for $purge_oopid")
+        //write to publish log
+        putPublishLog(appName, s3PublishLogPath, purge_oopid, compact(render(json)), "PURGE", "PURGE", purge_stamp, topicStamp, msgOffset, producerStamp)
+
+        if (purge_oopid != "") {
+          //note purge ticket OOPID from Dynamo tables
+          purgeTicket(purge_oopid, purgeTicketDay + "_" + purge_num) //ticket-num map row-key => ticketcreatedate(YMD)_ticketnumer
+          purgedCount = purgedCount + 1
+        }
+      } else {
+        //write purge exception
+        if (ticketDate != "" && !validDate) {
+          //writeTivoliLog(appname = appName, logWriter = logWriter, server = server, tivoliSeverity = tivoliSeverity, tivoliTag = tivoliTag, tivoliEmailAddress = tivoliEmail, sev = "w", msg = "Purge record create-date mismatch", err = s"Ticket oopid : $purge_oopid, purge file create date: $purge_stamp, ticket create date: $ticketDate")
+          putException(appname = appName, sjson = purgeMsg, logWriter = logWriter, server = server, tivoliSeverity = tivoliSeverity, severity = "w", tivoliTag = tivoliTag, tivoliEmail = tivoliEmail, msg = "Purge record create-date mismatch", jsonMsgType = "", functionName = "processPurge", err = s"Ticket oopid : $purge_oopid, purge file create date: $purge_stamp, ticket create date: $ticketDate")
+          log("Purge record create-date mismatch")
+        } else if (ticketNum != "" && !validNumber) {
+          //writeTivoliLog(appname = appName, logWriter = logWriter, server = server, tivoliSeverity = tivoliSeverity, tivoliTag = tivoliTag, tivoliEmailAddress = tivoliEmail, sev = "w", msg = "Purge record ticket-number mismatch", err = s"Ticket oopid : $purge_oopid, purge file ticket number: $purge_num, ticket number: $ticketNum")
+          putException(appname = appName, sjson = purgeMsg, logWriter = logWriter, server = server, tivoliSeverity = tivoliSeverity, severity = "w", tivoliTag = tivoliTag, tivoliEmail = tivoliEmail, msg = "Purge record ticket-number mismatch", jsonMsgType = "", functionName = "processPurge", err = s"Ticket oopid : $purge_oopid, purge file create date: $purge_stamp, ticket create date: $ticketDate")
+          log("Purge record ticket-number mismatch")
+        }
+      }
+    } catch {
+      case ase: AmazonServiceException => throw ase
+      case sce: SdkClientException     => throw sce
+      case ace: AmazonClientException  => throw ace
+      case e: Exception => {
+        val sw = new StringWriter
+        e.printStackTrace(new PrintWriter(sw))
+        log(s"Purge exception. Purge record: $purgeMsg. Msg : $e. Trace: " + sw.toString())
+        throw new ticketException("e", s"Purge exception. Purge record: $purgeMsg. Msg : $e", "processPurge")
+      }
+    }
+  }
+
+  /**
+   * Recursive function that parses a json message and writes data to an Dynamo table
+   */
+  def parseJsonElements(msgType: String, parent: String, children: List[JField], rowkey: String, childId: String = "", operation: String = "", seq: Int = (-1)): String = {
+    var childIdStr = childId
+    var oper = operation
+
+    if (dbg)
+      log("parseJsonElements-1: childIdStr:" + childIdStr + ", oper:" + oper)
+
+    //if (oper == "UPDATE")
+    //  updateDeleteCase = true
+
+    for (child <- children) {
+      child match {
+        case JField(x, y: JString) => {
+          if (dbg) {
+            log("parseJsonElements-2")
+            log("x: " + x + ", y (JString): " + y)
+          }
+          if (x == "Operation") {
+            implicit val formats = org.json4s.DefaultFormats
+            oper = y.extract[String]
+          } else if (x == "componentId" && oper == "REMOVE") {
+            if (dbg)
+              log("parseJsonElements, oper=REMOVE")
+            implicit val formats = org.json4s.DefaultFormats
+            updateDeleteCase = true
+            if (y.extract[String] != "")
+              putTicketElement(msgType, parent + "." + x, childId, y.extract[String], rowkey, "REMOVE")
+          } else if (!oper.isEmpty) {
+            implicit val formats = org.json4s.DefaultFormats
+            if (dbg)
+              log("parseJsonElements, oper is not empty, rowkey: " + rowkey + ", msgType: " + msgType + ", childId: " + childId + ", parent.x: " + parent + "." + x + ", y.extract[String]: " + y.extract[String])
+            if (y.extract[String] != "")
+              putTicketElement(msgType, parent + "." + x, childId, y.extract[String], rowkey)
+            else if (y.extract[String].isEmpty && oper == "UPDATE" && (x == "supportCode" || x == "causeCode" || x == "equipmentType"))
+              putTicketElement(msgType, parent + "." + x, childId, "", rowkey)
+            if (seq > 0 && x == "componentId") {
+              // sequence of the child object has to be inserted for ordered list of objects
+              putTicketElementSequence(parent + "." + x, childId, seq.toString)
+            }
+          } //else if (oper.isEmpty) { //if the column is empty, check if it is a field that can be 'reset'
+          else if (y.extract[String].isEmpty) { //if the column is empty, check if it is a field that can be 'reset'
+            log(s"y.extract[String] is empty, oper=$oper, x=$x")
+            if (oper == "UPDATE" && (x == "supportCode" || x == "causeCode" || x == "equipmentType")) { //these are the only columns that can be reset in OCS during an UPDATE
+              //insert empty value into table
+              putTicketElement(msgType, parent + "." + x, childId, "", rowkey)
+            }
+          }
+        }
+        case JField(x, y: JArray) => {
+          if (dbg) {
+            log("parseJsonElements-3")
+          }
+
+          if (y.children.size > 0) {
+            if (y.children(0).isInstanceOf[JString]) {
+              implicit val formats = org.json4s.DefaultFormats
+              if (y.extract[scala.collection.immutable.List[String]].length != 0)
+                putTicketElement(msgType, parent + "." + x, childId, y.extract[scala.collection.immutable.List[String]].filter(_ != "").toString, rowkey)
+            } else if (y.children(0).isInstanceOf[JObject]) {
+              if (dbg) {
+                log(s"parseJsonElements-seqNum ${seq}")
+              }
+              var seqNum = seq
+              for ((item, itemCount) <- y.children.zipWithIndex) {
+                if (seqNum >= 0) //if it is an ordered list, start counting the sequence
+                  seqNum = seqNum + 1
+                if (msgType == "T") { //ticket children have child objects that have a component ID as the identifier
+                  if ((item \\ "componentId") != JNothing) {
+                    if (!(item \\ "componentId").isInstanceOf[JObject]) {
+                      implicit val formats = org.json4s.DefaultFormats
+                      childIdStr = (item \\ "componentId").extract[String]
+                    }
+                  } else throw new ticketException("e", s"No componentID found for child object $childId : parent: $parent", "parseJsonElements")
+                } else if (msgType == "R" || msgType == "X") {
+                  if ((item \ "componentId") != JNothing) {
+                    implicit val formats = org.json4s.DefaultFormats
+                    childIdStr = (item \ "componentId").extract[String]
+                  } else throw new ticketException("e", s"No componentID found for child object $childId : parent: $parent", "parseJsonElements")
+                }
+                if (childIdStr == "") childIdStr = childId
+                parseJsonElements(msgType, parent + "." + x, item.asInstanceOf[JObject].obj, rowkey, childIdStr, oper, seqNum)
+              }
+            }
+          }
+        }
+        case JField(x, y: JObject) => {
+          if (dbg)
+            log("parseJsonElements-4")
+          if (x.startsWith("OrderedCollectionOf"))
+            parseJsonElements(msgType, parent + "." + x, (y).asInstanceOf[JObject].obj, rowkey, childIdStr, oper, 0)
+          else
+            parseJsonElements(msgType, parent + "." + x, (y).asInstanceOf[JObject].obj, rowkey, childIdStr, oper)
+        }
+        case _ => {
+          putException(appName, json, logWriter, server, tivoliSeverity, "w", tivoliTag, tivoliEmail,
+            "Unknown JSON element found", jsonMsgType, "parseJsonElements", child.toString)
+        }
+      }
+    }
+    ""
+  }
+
+  /**
+   * Wrapper function to insert a row into ticket table
+   */
+  def callDynamoPutTicketTable(table: String, rowKey: String, rowKeyValue: String, row: LinkedHashMap[String, Object], caller: String) = {
+    log(s"called: callDynamoPutTicketTable(table: $table, rowKey: $rowKey, rowKeyValue: $rowKeyValue, caller: $caller)")
+    //    if (dbg) {
+    log(s"row content to be pushed into ticket table: ${row.toString}")
+    //    }
+
+    var sortKeyValue = messageType + "_" + stamp
+    try {
+      dynamoPutRowTicketTable(table, rowKey, rowKeyValue, sortKey, sortKeyValue, "message_type", messageType, row)
+      putDynamoKeys(s"${table}~${rowKeyValue}")
+    } catch {
+      case ase: AmazonServiceException => throw ase
+      case ace: AmazonClientException  => throw ace
+      case ex: Exception => {
+        val sw = new StringWriter
+        ex.printStackTrace(new PrintWriter(sw))
+        log(s"callDynamoPutTicketTable:  Msg : $ex, Trace: " + sw.toString)
+        throw ex
+      }
+    }
+  }
+
+  /**
+   * Wrapper function to insert a row into ticket table for republish ticket
+   */
+  def callDynamoPutTicketTableForRepublish(table: String, rowKey: String, rowKeyValue: String, row: LinkedHashMap[String, Object], caller: String) = {
+    log(s"called: callDynamoPutTicketTableForRepublish(table: $table, rowKey: $rowKey, rowKeyValue: $rowKeyValue, caller: $caller)")
+    //    if (dbg) {
+    log(s"row content to be pushed into ticket table (republish): ${row.toString}")
+    //    }
+
+    var sortKeyValue = messageType + "_" + stamp
+    try {
+      dynamoPutRowTicketTableForRepublish(table, rowKey, rowKeyValue, sortKey, sortKeyValue, "message_type", messageType, row)
+      putDynamoKeys(s"${table}~${rowKeyValue}")
+    } catch {
+      case ase: AmazonServiceException => throw ase
+      case ace: AmazonClientException  => throw ace
+      case ex: Exception => {
+        val sw = new StringWriter
+        ex.printStackTrace(new PrintWriter(sw))
+        log(s"callDynamoPutTicketTable:  Msg : $ex, Trace: " + sw.toString)
+        throw ex
+      }
+    }
+  }
+
+  def callDynamoPutRowTicketTableWithComponentRemoved(table: String, rowKey: String, rowKeyValue: String, columns: ArrayList[String], componentIds: ArrayList[String], row: LinkedHashMap[String, Object], flag: Boolean, caller: String) = {
+    log(s"called: callDynamoPutRowTicketTableWithComponentRemoved(table: $table, rowKey: $rowKey, rowKeyValue: $rowKeyValue, column=$columns, componentId=$componentIds, flag=$flag, caller: $caller)")
+    //    if (dbg) {
+    log(s"row content to be pushed into ticket table: ${row.toString}")
+    //    }
+
+    var sortKeyValue = messageType + "_" + stamp
+    //dynamoPutTicketRow(table, rowKey, rowKeyValue, sortKey, sortKeyValue, "message_type", messageType, row)
+    try {
+      dynamoPutRowTicketTableWithComponentRemoved(table, rowKey, rowKeyValue, sortKey, sortKeyValue, "message_type", messageType, columns, componentIds, row, flag)
+      putDynamoKeys(s"${table}~${rowKeyValue}")
+    } catch {
+      case ase: AmazonServiceException => throw ase
+      case ace: AmazonClientException  => throw ace
+      case ex: Exception => {
+        log("exception: " + ex)
+        val sw = new StringWriter
+        ex.printStackTrace(new PrintWriter(sw))
+        log(s"callDynamoPutRowTicketTableWithComponentRemoved:  Msg : $ex, Trace: " + sw.toString)
+        throw ex
+      }
+    }
+
+  }
+  /**
+   * Wrapper function to insert a row into ticket table
+   */
+  def callDynamoPutTicketHistoryTable(ticketHistoryTable: String, rowKey: String, rowKeyValue: String, sortKey: String, sortKeyValue: String, messageType: String, messageTypeValue: String, row: LinkedHashMap[String, Object], caller: String) = {
+    log(s"called: callDynamoPutTicketHistoryTable(ticketHistoryTable: $ticketHistoryTable, ticketTable:$ticketTable, rowKey: $rowKey, rowKeyValue: $rowKeyValue, sortKey: $sortKey, sortKeyValue: $sortKeyValue, row: $row, caller: $caller)")
+    var currentTimestamp = System.currentTimeMillis().asInstanceOf[java.lang.Long]
+    if (row.get(rowKey) != null) {
+      // remove rowKey from map because it's a part of key that couldn't get updated
+      row.remove(rowKey)
+    }
+    if (row.get(sortKey) != null) {
+      // remove sortkey from map because it's a part of key that couldn't get updated
+      row.remove(sortKey)
+    }
+
+    if (dbg) {
+      log(s"row content to be pushed into ticket history table: ${row.toString}")
+      //      for ((k, v) <- row) {
+      //        log("key: " + k + ", value: " + v)
+      //      }
+    }
+
+    try {
+      dynamoPutTicketRow(ticketHistoryTable, rowKey, rowKeyValue, sortKey, sortKeyValue, messageType, messageTypeValue, row)
+      putDynamoKeys(s"${ticketHistoryTable}~${rowKeyValue}")
+    } catch {
+      case ase: AmazonServiceException => throw ase
+      case ace: AmazonClientException  => throw ace
+      case ex: Exception => {
+        log("exception: " + ex)
+        val sw = new StringWriter
+        ex.printStackTrace(new PrintWriter(sw))
+        log(s"callDynamoPutTicketHistoryTable:  Msg : $ex, Trace: " + sw.toString)
+      }
+    }
+  }
+
+  def callDynamoBatchDelete(ticketTable: String, rowkey: String, sortkey: String, items: ArrayList[String], caller: String) {
+    log(s"called: callDynamoBatchDelete(ticketTable: $ticketTable, rowkey: $rowkey, sortkey: $sortkey, caller: $caller")
+    log(s"callDynamoBatchDelete: items to be deleted from ${ticketTable}: ${items.size}")
+    try {
+      dynamoBatchDelete(ticketTable, rowkey, sortkey, items)
+    } catch {
+      case ase: AmazonServiceException => {
+        log("ase exception: " + ase)
+        val sw = new StringWriter
+        ase.printStackTrace(new PrintWriter(sw))
+        throw ase
+      }
+      case ace: AmazonClientException => throw ace
+      case ex: Exception => {
+        log("exception: " + ex)
+        val sw = new StringWriter
+        ex.printStackTrace(new PrintWriter(sw))
+        log(s"dynamoBatchDelete:  Msg : $ex, Trace: " + sw.toString)
+      }
+    }
+  }
+
+  def callDynamoBatchPut(ticketHistoryTable: String, rowkey: String, sortkey: String, rows: ArrayList[LinkedHashMap[String, Object]], caller: String) {
+    log(s"called: callDynamoBatchPut(ticketHistoryTable: $ticketHistoryTable, rowkey: $rowkey, sortkey:$sortkey, caller: $caller")
+    if (dbg)
+      log(s"callDynamoBatchPut: rows to be inserted into ${ticketHistoryTable}: ${rows.size}")
+    try {
+      dynamoBatchPut(ticketHistoryTable, rowkey, sortkey, rows)
+    } catch {
+      case ase: AmazonServiceException => throw ase
+      case ace: AmazonClientException  => throw ace
+      case ex: Exception => {
+        log("exception: " + ex)
+        val sw = new StringWriter
+        ex.printStackTrace(new PrintWriter(sw))
+        log(s"callDynamoBatchPut:  Msg : $ex, Trace: " + sw.toString)
+      }
+    }
+  }
+
+  def mergeIeColumns(): Boolean = {
+    var flag = false
+    var cidList = new ArrayList[String]()
+    var seqList = new ArrayList[String]()
+    var ctsList = new ArrayList[String]()
+    var dtList = new ArrayList[String]()
+    var rtsList = new ArrayList[String]()
+    var smList = new ArrayList[String]()
+    var ifList = new ArrayList[String]()
+
+    var deleteList = new ArrayList[String]()
+    for ((k, v) <- row_elem) {
+      //      println(s"k =$k, v=$v")
+      if (k.startsWith("ie_")) {
+        if (k.endsWith("_cid")) {
+          flag = true
+          cidList.add(v.toString())
+          deleteList.add(k)
+        } else if (k.endsWith("_seq")) {
+          seqList.add(v.toString())
+          deleteList.add(k)
+        } else if (k.endsWith("_cts")) {
+          ctsList.add(v.toString())
+          deleteList.add(k)
+        } else if (k.endsWith("_dt")) {
+          dtList.add(v.toString())
+          deleteList.add(k)
+        } else if (k.endsWith("_rts")) {
+          rtsList.add(v.toString())
+          deleteList.add(k)
+        } else if (k.endsWith("_sm")) {
+          smList.add(v.toString())
+          deleteList.add(k)
+        } else if (k.endsWith("_if")) {
+          ifList.add(v.toString())
+          deleteList.add(k)
+        }
+      }
+    }
+
+    if (cidList.size > 0) {
+      Collections.reverse(cidList)
+      row_elem.put("ie_cid", cidList)
+    }
+    if (seqList.size > 0) {
+      Collections.reverse(seqList)
+      row_elem.put("ie_seq", seqList)
+    }
+    if (ctsList.size > 0) {
+      Collections.reverse(ctsList)
+      row_elem.put("ie_cts", ctsList)
+    }
+    if (dtList.size > 0) {
+      Collections.reverse(dtList)
+      row_elem.put("ie_dt", dtList)
+    }
+    if (rtsList.size > 0) {
+      Collections.reverse(rtsList)
+      row_elem.put("ie_rts", rtsList)
+    }
+    if (smList.size > 0) {
+      Collections.reverse(smList)
+      row_elem.put("ie_sm", smList)
+    }
+    if (ifList.size > 0) {
+      Collections.reverse(ifList)
+      row_elem.put("ie_if", ifList)
+    }
+
+    // remove keys inside deleteList
+    for (k <- deleteList.asScala) {
+      row_elem.remove(k)
+    }
+    flag
+  }
+
+  def mergePoColumns(): Boolean = {
+    //    println("mergePoColumns")
+    var flag = false
+    // merge po_id_* columns into list
+    var cidList = new ArrayList[String]()
+    var pcList = new ArrayList[String]()
+    var dList = new ArrayList[String]()
+    var pdidList = new ArrayList[String]()
+    var peList = new ArrayList[String]()
+    var seqList = new ArrayList[String]()
+    var pdList = new ArrayList[String]()
+
+    var deleteList = new ArrayList[String]()
+    for ((k, v) <- row_elem) {
+      //println(s"k =$k, v=$v")
+      if (k.startsWith("po_")) {
+        if (k.endsWith("_cid")) {
+          flag = true
+          cidList.add(v.toString())
+          deleteList.add(k)
+        } else if (k.endsWith("_pc")) {
+          pcList.add(v.toString())
+          deleteList.add(k)
+        } else if (k.endsWith("_d")) {
+          dList.add(v.toString())
+          deleteList.add(k)
+        } else if (k.endsWith("_pdid")) {
+          pdidList.add(v.toString())
+          deleteList.add(k)
+        } else if (k.endsWith("_pe")) {
+          peList.add(v.toString())
+          deleteList.add(k)
+        } else if (k.endsWith("_seq")) {
+          seqList.add(v.toString())
+          deleteList.add(k)
+        } else if (k.endsWith("_pd")) {
+          pdList.add(v.toString())
+          deleteList.add(k)
+        }
+      }
+    }
+    if (cidList.size > 0) {
+      Collections.reverse(cidList)
+      row_elem.put("po_cid", cidList)
+    }
+    if (pcList.size > 0) {
+      Collections.reverse(pcList)
+      row_elem.put("po_pc", pcList)
+    }
+    if (dList.size > 0) {
+      Collections.reverse(dList)
+      row_elem.put("po_d", dList)
+    }
+    if (pdidList.size > 0) {
+      Collections.reverse(pdidList)
+      row_elem.put("po_pdid", pdidList)
+    }
+    if (peList.size > 0) {
+      Collections.reverse(peList)
+      row_elem.put("po_pe", peList)
+    }
+    if (seqList.size > 0) {
+      Collections.reverse(seqList)
+      row_elem.put("po_seq", seqList)
+    }
+    if (pdList.size > 0) {
+      Collections.reverse(pdList)
+      row_elem.put("po_pd", pdList)
+    }
+    // remove keys inside deleteList
+    for (k <- deleteList.asScala) {
+      row_elem.remove(k)
+    }
+    flag
+  }
+
+  def populateSeqList(idCol: String, seqCol: String): Unit = {
+    if (row_elem.get(seqCol) == null) {
+      // message is UPDATE-ADD-REMOVE (there is no ie_seq/po_seq key in UPDATE-REMOVE message)
+      var idList = new ArrayList[String]()
+      idList = row_elem.get(idCol).asInstanceOf[ArrayList[String]]
+      log(s"${seqCol} is not present (likely a UPDATE-ADD-REMOVE case), assign empty")
+      if (dbg)
+        log(s"idList: ${idList}")
+      var seqList = new ArrayList[String]()
+      for (l <- idList) {
+        seqList.add("")
+      }
+      if (dbg)
+        log(s"seqList: ${seqList}")
+      row_elem.put(seqCol, seqList)
+    }
+  }
+
+  def callDynamoGetRowLatestVersionWithoutOopid(ticketTable: String, rowkey: String, ticketId: String, messageTypeKey: String, messageTypeVal: String): LinkedHashMap[String, Object] = {
+    var row = new LinkedHashMap[String, Object]
+    try {
+      row = dynamoGetRowLatestVersionWithoutOopid(ticketTable, rowkey, ticketId, messageTypeKey, messageTypeVal)
+      log(s"callDynamoGetRowLatestVersionWithoutOopid: latest version of ${ticketId} : ${row}")
+    } catch {
+      case ase: AmazonServiceException => throw ase
+      case ace: AmazonClientException  => throw ace
+      case sce: SdkClientException     => throw sce
+      case ex: Exception => {
+        log("exception caught in callDynamoGetRowLatestVersionWithoutOopid(), " + ex.getMessage())
+        throw new ticketException("e", s"Error reading row from ticket table, ex msg: " + ex.getMessage, "callDynamoGetRowLatestVersionWithoutOopid")
+      }
+    }
+    row
+  }
+
+  /**
+   * Process the ticket message
+   *
+   */
+  def processTicket() = {
+    implicit val formats = DefaultFormats
+    operation = Try((json \\ messageType \ "Operation").extract[String]).getOrElse({ throw new ticketException("e", s"Ticket.operation not found ", "processTicket"); "" })
+    ticketId = Try((json \\ messageType \ "MessageHeader" \ "targetId").extract[String]).getOrElse({ throw new ticketException("e", s"Ticket.targetID not found ", "processTicket"); "" })
+    ticketRowkey = ticketId
+
+    log(s"processTicket function starts for ticketId=$ticketRowkey")
+    log("processTicket() - operation: " + operation)
+    republishCase = false
+    if (operation == "REPUBLISH") {
+      republishCase = true
+    }
+
+    log("1.Write to PublishLog (S3)")
+    try {
+      log("Writing to S3-" + s3PublishLogPath)
+      val msg = (json \\ "MessageHeader" \ "stamp").extract[String]
+      putPublishLog(appName, s3PublishLogPath, ticketId, compact(render(json)), jsonMsgType, operation, stamp, topicStamp, msgOffset, producerStamp)
+    } catch {
+      case ase: AmazonServiceException => throw ase
+      case ace: AmazonClientException  => throw ace
+      case sce: SdkClientException     => throw sce
+      case ex: Exception => {
+        log("exception caught in processTicket(), " + ex.getMessage())
+        throw new ticketException("e", s"Error writing row to S3 publish log, ex msg: " + ex.getMessage, "processTicket-putPublishLog")
+      }
+    }
+
+    log(s"2. Checking to write to $tktNumToKeyTable table (Dynamo)")
+    if (operation == "ADD") {
+      implicit val formats = DefaultFormats
+      ticketNum = Try((json \\ messageType \ "MessageData" \ "number").extract[String]).getOrElse({ throw new ticketException("e", s"Ticket.number not found ", "processTicket"); "" })
+      ticketYMD = Try(ymdFormat.format(dateFormat.parse((json \\ messageType \ "MessageData" \ "time").extract[String])).toString).getOrElse({ throw new ticketException("e", s"Ticket.time not found ", "processTicket"); "" })
+      try {
+        val tktNumRowKey = ticketYMD + "_" + ticketNum
+        if (dbg)
+          log("tktNumToKeyTable: " + tktNumRowKey)
+        var tktNumToKeyMap = new LinkedHashMap[String, Object]
+        tktNumToKeyMap.put("tktid", ticketRowkey)
+        tktNumToKeyMap.put("lmdt", getNow())
+        dynamoPutRow(tktNumToKeyTable, rowkey, tktNumRowKey, tktNumToKeyMap)
+        putDynamoKeys(s"${tktNumToKeyTable}~${tktNumRowKey}")
+
+      } catch {
+        case ase: AmazonServiceException => throw ase
+        case ace: AmazonClientException  => throw ace
+        case ex: Exception               => throw new ticketException("e", s"Error writing row to Dynamo table $tktNumToKeyTable, " + ex.getMessage, "processTicket-$tktNumToKeyTable")
+      }
+    }
+
+    log(s"3. Write to $ticketTable (Dynamo)")
+    row_elem = new LinkedHashMap[String, Object]
+    componentIds = new ArrayList[String]
+    try {
+      updateDeleteCase = false
+      updateAddDeleteCase = false
+      componentColumns.clear()
+      //componentColumn = ""
+      parseJsonElements("T", messageType, (json \ messageType).asInstanceOf[JObject].obj, ticketRowkey)
+    } catch {
+      case ex: Exception => {
+        log("exception in parseJsonElements," + ex.getMessage)
+        throw new ticketException("e", s"Error in processing Json", "processTicket-parseJsonElements")
+      }
+    }
+    row_elem.put("lmdt", getNow())
+    var dt = myFormat.format(Calendar.getInstance().getTime())
+    row_elem.put("dt", dt)
+    row_elem.put("message_type", messageType)
+
+    // convert ie_*, po_* columns to list format
+    mergeIeColumns()
+    mergePoColumns()
+
+    if (republishCase == true) {
+      log("handling REPUBLISH message")
+      try {
+        callDynamoPutTicketTableForRepublish(ticketTable, rowkey, ticketRowkey, row_elem, "processTicket")
+      } catch {
+        case ase: AmazonServiceException => throw ase
+        case ace: AmazonClientException  => throw ace
+        case ex: Exception => {
+          log("ex: " + ex)
+          throw new ticketException("e", s"Error writing row to $ticketTable", "processTicket")
+        }
+      }
+    }
+
+    if (updateDeleteCase == false && republishCase == false) {
+      log("handling ADD, UPDATE, UPDATE-ADD message")
+      try {
+        //if (dbg) log("rowkey: " + ticketRowkey + ", row_elem: " + row_elem)
+        callDynamoPutTicketTable(ticketTable, rowkey, ticketRowkey, row_elem, "processTicket")
+      } catch {
+        case ase: AmazonServiceException => throw ase
+        case ace: AmazonClientException  => throw ace
+        case ex: Exception => {
+          log("ex: " + ex)
+          throw new ticketException("e", s"Error writing row to $ticketTable", "processTicket")
+        }
+      }
+    }
+
+    if ((updateDeleteCase == true || componentColumns.size > 0) && republishCase == false) {
+      log("handling UPDATE-REMOVE, UPDATE-ADD-REMOVE message")
+      try {
+        //possible values in componentColumns: "ie_cid", "po_cid"
+        var columns = new ArrayList[String]()
+        if (row_elem.get("ie_cid") != null || row_elem.get("po_cid") != null) {
+          log("handling UPDATE-ADD-REMOVE message")
+          updateAddDeleteCase = true
+
+          if (componentColumns.contains("ie_cid") == false && row_elem.get("ie_cid") != null) {
+            log("message requires ADD operation for ie_cid; adding ie_cid to componentColumns (mixed components)")
+            componentColumns.add("ie_cid")
+          }
+          if (componentColumns.contains("po_cid") == false && row_elem.get("po_cid") != null) {
+            log("message requires ADD operation for po_cid; adding po_cid to componentColumns (mixed components)")
+            componentColumns.add("po_cid")
+          }
+
+          if (row_elem.get("ie_cid") != null) {
+            // populate ie_seq because parseJsonElements does not populate seq for UPDATE-ADD-REMOVE messages
+            populateSeqList("ie_cid", "ie_seq")
+          }
+          if (row_elem.get("po_cid") != null) {
+            // populate po_seq because parseJsonElements does not populate seq for UPDATE-ADD-REMOVE messages
+            populateSeqList("po_cid", "po_seq")
+          }
+
+          // convert set to list
+          for (componentColumn <- componentColumns) {
+            columns.add(componentColumn)
+          }
+
+        } else {
+          log("handling UPDATE-REMOVE message")
+          updateAddDeleteCase = false
+          // convert set to list
+          for (componentColumn <- componentColumns) {
+            columns.add(componentColumn)
+          }
+        }
+
+        log(s"componentColumns=${columns}")
+
+        callDynamoPutRowTicketTableWithComponentRemoved(ticketTable, this.rowkey, ticketRowkey, columns, componentIds, row_elem, updateAddDeleteCase, "deleteFromDynamo")
+      } catch {
+        case ase: AmazonServiceException => throw ase
+        case ace: AmazonClientException  => throw ace
+        case ex: Exception => {
+          log("ex: " + ex)
+          throw new ticketException("e", s"Error writing row to $ticketTable", "processTicket")
+        }
+      }
+    }
+
+    log(s"4. Checking to publish to $dvcTriggerTopic topic (Kafka)")
+    //Note: Check if the device ID has been updated; if so, send a trigger message to update the ticket-premise mapping
+    var triggerDeviceFPLID = Try((json \\ messageType \ "MessageData" \ "device" \ "fplId").extract[String]).getOrElse({ "" })
+    log("triggerDeviceFPLID: " + triggerDeviceFPLID)
+    if (triggerDeviceFPLID != "") {
+      if (dbg) log("Send the trigger message to the topic: " + dvcTriggerTopic)
+
+      var row = callDynamoGetRowLatestVersionWithoutOopid(ticketTable, rowkey, ticketId, "message_type", this.messageType)         
+      var triggerTicketNum = Try(row.get("num")).getOrElse("")
+      var triggerTicketDateTime = Try(row.get("tm")).getOrElse("")
+      var triggerTicketCompanyCode = Try(row.get("ccd")).getOrElse({ "1500" })
+      var triggerTicketzCode = Try(row.get("zcd")).getOrElse({ triggerTicketCompanyCode })
+
+      if (triggerTicketNum == null) {
+        triggerTicketNum = ""
+      }
+      if (triggerTicketDateTime == null) {
+        triggerTicketDateTime = ""
+      }
+      if (triggerTicketCompanyCode == null) {
+        triggerTicketCompanyCode = "1500"
+      }
+      if (triggerTicketzCode == null) {
+        triggerTicketzCode = triggerTicketCompanyCode
+      }
+
+      log("triggerTicketNum: " + triggerTicketNum + ", triggerTicketDateTime: " + triggerTicketDateTime + ", triggerTicketCompanyCode: " + triggerTicketCompanyCode + ", triggerTicketzCode: " + triggerTicketzCode)
+
+      if (triggerTicketDateTime != "" && triggerTicketNum != "") {
+        //message format - "TKT_DVC"|ticket_create_datetime|ticket_number|device_fpl_id|sub_company_code
+        var triggerKey = "TKT_DVC_TRIGGER" + triggerTicketDateTime + "|" + triggerTicketNum
+        var triggerMsg = "TKT_DVC|" + triggerTicketDateTime + "|" + triggerTicketNum + "|" + triggerDeviceFPLID + "|" + triggerTicketzCode
+
+        log("Posting message to " + dvcTriggerTopic + " topic")
+        log("TriggerKey: " + triggerKey + ", TriggerMsg: " + triggerMsg)
+        var i = 0
+        while ((Try(producer.send(new ProducerRecord[String, String](dvcTriggerTopic, triggerKey, triggerMsg)).get()).getOrElse(false) == false)) {
+          //try infinitely to send the message if the send fails
+          if (i == 10)
+            putException(appname = appName, sjson = triggerMsg, logWriter = logWriter, server = server, tivoliSeverity = tivoliSeverity, severity = "w", tivoliTag = tivoliTag, tivoliEmail = tivoliEmail, msg = "Failed to send message to Kafka topic $dvcTriggerTopic", jsonMsgType = "", functionName = "processPurge", err = s"Ticket oopid : $ticketId, Kafka Message : $triggerMsg")
+          //writeTivoliLog(appname = appName, logWriter = logWriter, server = server, tivoliSeverity = tivoliSeverity, tivoliTag = tivoliTag, tivoliEmailAddress = tivoliEmail, sev = "w", msg = s"Failed to send message to Kafka topic $dvcTriggerTopic", err = s"Ticket oopid : $ticketId, Kafka Message : $triggerMsg")
+          i = i + 1
+        }
+        if (i > 10) //logged a send-error previously
+          putException(appname = appName, sjson = triggerMsg, logWriter = logWriter, server = server, tivoliSeverity = tivoliSeverity, severity = "w", tivoliTag = tivoliTag, tivoliEmail = tivoliEmail, msg = "Succeeded in sending message to Kafka topic $dvcTriggerTopic, after $i trials", jsonMsgType = "", functionName = "processPurge", err = s"Ticket oopid : $ticketId, Kafka Message : $triggerMsg")
+        //writeTivoliLog(appname = appName, logWriter = logWriter, server = server, tivoliSeverity = tivoliSeverity, tivoliTag = tivoliTag, tivoliEmailAddress = tivoliEmail, sev = "w", msg = "Succeeded in sending message to Kafka topic $dvcTriggerTopic, after $i trials", err = s"Ticket oopid : $ticketId, Kafka Message : $triggerMsg")
+        else
+          log("Successfully posted message to " + dvcTriggerTopic + " topic")
+      }
+    }
+  }
+
+  /**
+   * Parse and process the JSON message
+   *
+   */
+  def processJSON() {
+    implicit val formats = DefaultFormats
+    //get the oopid of the object
+    oopid = if (json \\ "MessageHeader" \ "targetId" != JNothing) (json \\ "MessageHeader" \ "targetId").extract[String] else ""
+    stamp = if (json \\ "MessageHeader" \ "stamp" != JNothing) (json \\ "MessageHeader" \ "stamp").extract[String] else ""
+    ticketRowkey = ""
+    operation = ""
+    ticketNum = ""
+    ticketId = ""
+    log("processJSON - oopid:" + oopid + ", stamp:" + stamp)
+
+    if (json \ messageType != JNothing) {
+      jsonMsgType = messageType
+      try {
+        log(s"processing TCMS2_Publish_Ticket message: ${kafkaMsg}")
+        processTicket()
+      } catch {
+        case ase: AmazonServiceException => throw ase
+        case ace: AmazonClientException  => throw ace
+        case sce: SdkClientException     => throw sce
+        case e: Exception => {
+          throw new ticketException("e", s"Error processing Ticket. TicketId: $oopid. Msg : $e", "ProcessJSON - msg: " + e.getMessage())
+        }
+      }
+    }
+  }
+
+  def run(numThreads: Int): String = {
+
+    //assign partitions to consumer to listen to - does not require the consumer heartbeat which 'subscribe' does
+    var partition0 = new TopicPartition(topic, 0)
+    if (dbg)
+      log("run: Partition0: " + partition0)
+    var partitions = new java.util.ArrayList[TopicPartition]()
+    for (partition <- consumer.partitionsFor(topic)) {
+      partitions.add(new TopicPartition(topic, partition.partition()))
+    }
+    consumer.assign(partitions)
+
+    log("run: Partitions: " + partitions.toString)
+
+    var purgeStarted = false
+    purgeCount = 0
+    purgedCount = 0
+    var purgeKey = ""
+    var i = 0
+    while (true) {
+
+      var currentDate = ymdFormat.format(Calendar.getInstance().getTime())
+
+      //check if the date has changed
+      if (today != ymdFormat.format(Calendar.getInstance().getTime())) {
+        today = ymdFormat.format(Calendar.getInstance().getTime())
+        logStream = "tcms-" + appName + "-" + today
+        log(s"Creating new logstream; today=$today; logStream=$logStream")
+        initLogStream(logStream)
+      }
+
+      val records = consumer.poll(1000) //The time, in milliseconds, spent waiting in poll if data is not available in the buffer
+      //log("**** records.count:" + records.count())
+
+      pushLogToCW(logStream)
+
+      kafkaMsg = ""
+
+      try {
+        if (records.count > 0)
+          log(s"number of records on this poll: ${records.count}")
+        for (record <- records) {
+          try {
+            msgOffset = record.offset().toString()
+            topicStamp = record.timestamp().toString()
+            producerStamp = ""
+            log(s"current offset: ${msgOffset}")
+
+            //check if a purge stream has ended
+            if (purgeStarted && !record.key().trim().toUpperCase().startsWith("PURGE")) {
+
+              log(s"Purge stream has ended:  purgeStarted=$purgeStarted; writing to $purgeLogTable with Rowkey=$purgeKey")
+              purgeStarted = false
+
+              //note: write record to purge_log table
+              dynamoPutRow(purgeLogTable, this.rowkey, purgeKey, "prg_cnt", purgeCount.toString())
+              dynamoPutRow(purgeLogTable, this.rowkey, purgeKey, "prgd_cnt", purgedCount.toString())
+              putDynamoKeys(s"${purgeLogTable}~${purgeKey}")
+
+              putException(appname = appName, "null", logWriter = logWriter, server = server, tivoliSeverity = tivoliSeverity, severity = "x",
+                tivoliTag = tivoliTag, tivoliEmail = tivoliEmail, msg = s"Finished purge process. Purge ticket count : ${purgeCount.toString()}.Purged ticket count : ${purgedCount.toString()}",
+                jsonMsgType = jsonMsgType, functionName = "run", err = "")
+
+              purgeCount = 0
+              purgedCount = 0
+
+            }
+
+            kafkaMsg = new String(record.value())
+
+            log("record.key:: " + record.key())
+
+            //check if it is a shutdown message
+            if (kafkaMsg.toUpperCase.trim == "SHUTDOWN") {
+              log("Detected SHUTDOWN message")
+
+              if (dbg)
+                log(s"commiting offset ${msgOffset.toLong + 1}")
+              //commit offset
+              consumer.commitSync(Collections.singletonMap(partition0, new OffsetAndMetadata(msgOffset.toLong + 1)))
+              return "SHUTDOWN"
+            }
+
+            //check if it is a purge message
+            if (record.key().trim().toUpperCase().startsWith("PURGE")) {
+
+              log("Detected PURGE message, kafkaMsg msg: " + kafkaMsg)
+
+              // note handling purge message
+              purgeCount = purgeCount + 1
+
+              if (purgeCount == 1) {
+                purgeStarted = true
+                purgeKey = record.key().trim() //key is the first purge message key
+                putException(appName, json, logWriter, server, tivoliSeverity, "x", tivoliTag, tivoliEmail,
+                  s"Starting purge process. Purge Key : $purgeKey", jsonMsgType, "run", "")
+                //wait until all consumers have caught up and are waiting on the purge process
+                putException(appName, json, logWriter, server, tivoliSeverity, "i", tivoliTag, tivoliEmail,
+                  "Waiting for other consumers to reach the purge stream...", jsonMsgType, "run", "")
+                val purgeWaitKey = record.key() + "_waiting"
+                log("purgeWaitKey: " + purgeWaitKey)
+                var el = ""
+                var ra = ""
+                var wr = ""
+                var ca = ""
+                var cb = ""
+                var tb = ""
+                log(s"PURGE: Check if all consumers is ready...; purgeWaitKey=$purgeWaitKey")
+
+                do {
+                  el = Try(dynamoGet(purgeLogTable, rowkey, purgeWaitKey, "el")).getOrElse({ "" }) //indicator for eventlog consumer
+                  ra = Try(dynamoGet(purgeLogTable, rowkey, purgeWaitKey, "ra")).getOrElse({ "" }) //indicator for repair-action consumer
+                  wr = Try(dynamoGet(purgeLogTable, rowkey, purgeWaitKey, "wr")).getOrElse({ "" }) //indicator for work-request consumer
+                  ca = Try(dynamoGet(purgeLogTable, rowkey, purgeWaitKey, "ca")).getOrElse({ "" }) //indicator for call consumer
+                  cb = Try(dynamoGet(purgeLogTable, rowkey, purgeWaitKey, "cb")).getOrElse({ "" }) //indicator for callback consumer
+                  tb = Try(dynamoGet(purgeLogTable, rowkey, purgeWaitKey, "tb")).getOrElse({ "" }) //indicator for ticket-bridge consumer
+                  if (el == "" || ra == "" || wr == "" || ca == "" || cb == "" || tb == "")
+                    Thread.sleep(1000)
+                } while (el == "" || ra == "" || wr == "" || ca == "" || cb == "" || tb == "")
+
+                //continue purge process if all consumers are ready
+                putException(appName, json, logWriter, server, tivoliSeverity, "i", tivoliTag, tivoliEmail,
+                  "All consumers are ready. Proceeding with purge process...", jsonMsgType, "run", "")
+
+                log("All consumers are ready. Proceeding with purge process...")
+              }
+
+              json = Xml.toJson(xml.XML.loadString(s"<purge>$kafkaMsg</purge>"))
+              msgOffset = record.offset().toString()
+              log(s"Purge started for kafkaMsg: ${kafkaMsg} (msgOffset=${msgOffset}); started at ${getNowDetailed("MM/dd/yyyy hh:mm:ss")}")
+              val t1 = System.nanoTime
+              // handling purge messages
+              processPurge(kafkaMsg)
+              val duration = (System.nanoTime - t1) / 1e9d
+              log(s"Purge completed for kafkaMsg: ${kafkaMsg} (msgOffset=${msgOffset}); at ${getNowDetailed("MM/dd/yyyy hh:mm:ss")}; duration=${duration}; purgeCount=${purgeCount}, purgedCount=${purgedCount}")
+            } else {
+
+              json = Try(parse(kafkaMsg)).getOrElse({ throw new ticketException("e", s"Error while parsing the json message", "run") })
+
+              if (dbg && json \ messageType != JNothing) {
+                var getNow = getNowDetailed("yyyyMMddHHmmssSSS")
+                log(s"[$getNow]: key :${record.key()} partition # : ${record.partition()} offset # : ${record.offset()} message # : $i ${compact(render(json)).toString.substring(0, 100)}")
+              }
+              //get message offset
+              msgOffset = record.offset().toString()
+              producerStamp = Try(record.key().trim().split("_")(2)).getOrElse("")
+              if (dbg)
+                i = i + 1
+              //process the json message
+              processJSON()
+            }
+
+            //commit offset
+            log(s"commiting offset ${msgOffset.toLong + 1}")
+            consumer.commitSync(Collections.singletonMap(partition0, new OffsetAndMetadata(msgOffset.toLong + 1)))
+            //The committed offset should always be the offset of the next message that your application will read.
+            //Thus, when calling commitSync(offsets) you should add one to the offset of the last message processed.
+          } catch {
+            case ase: AmazonServiceException => throw ase
+            case ace: AmazonClientException  => throw ace
+            case sce: SdkClientException     => throw sce
+            case te: ticketException => {
+              log("ticketException " + te)
+              val sw = new StringWriter
+              te.printStackTrace(new PrintWriter(sw))
+              log(s"process record:  Msg : $te, Trace: " + sw.toString)
+              putException(appname = appName, sjson = kafkaMsg, logWriter = logWriter, server = server, tivoliSeverity = tivoliSeverity, severity = te.severity,
+                tivoliTag = tivoliTag, tivoliEmail = tivoliEmail, msg = te.message, jsonMsgType = jsonMsgType, functionName = te.functionName, err = "")
+              //commit offset
+              log(s"commiting offset ${msgOffset.toLong + 1}")
+              consumer.commitSync(Collections.singletonMap(partition0, new OffsetAndMetadata(msgOffset.toLong + 1)))
+            }
+            case ex: Exception => {
+              log("exception: " + ex)
+              val sw = new StringWriter
+              ex.printStackTrace(new PrintWriter(sw))
+              log(s"process record:  Msg : $ex, Trace: " + sw.toString)
+              putException(appname = appName, sjson = kafkaMsg, logWriter = logWriter, server = server, tivoliSeverity = tivoliSeverity,
+                severity = "e", tivoliTag = tivoliTag, tivoliEmail = tivoliEmail, msg = sw.toString,
+                jsonMsgType = jsonMsgType, functionName = "run", err = ex.toString)
+              //commit offset
+              log(s"commiting offset ${msgOffset.toLong + 1}")
+              consumer.commitSync(Collections.singletonMap(partition0, new OffsetAndMetadata(msgOffset.toLong + 1)))
+            }
+          }
+        }
+      } catch {
+        case ase: AmazonServiceException => {
+          putException(appName, "", logWriter, server, tivoliSeverity, "w", tivoliTag, tivoliEmail,
+            s"AmazonServiceException: " + ase.getMessage, "", "run", ase.getMessage)
+          consumer.seek(partition0, msgOffset.toLong) //move back to the last offset and poll again
+        }
+        case ace: AmazonClientException => {
+          putException(appName, "", logWriter, server, tivoliSeverity, "w", tivoliTag, tivoliEmail,
+            s"AmazonClientException: " + ace.getMessage, "", "run", ace.getMessage)
+          consumer.seek(partition0, msgOffset.toLong) //move back to the last offset and poll again
+        }
+        case sce: SdkClientException => {
+          putException(appName, "", logWriter, server, tivoliSeverity, "w", tivoliTag, tivoliEmail,
+            s"SdkClientException: " + sce.getMessage, "", "run", sce.getMessage)
+          consumer.seek(partition0, msgOffset.toLong) //move back to the last offset and poll again
+        }
+        case we: WakeupException => {
+          log("WakeupException: " + we)
+          throw we
+        }
+        case te: ticketException => {
+          log(s"ticketException: $te.message, $te.functionName")
+          putException(appname = appName, sjson = "null", logWriter = logWriter, server = server, tivoliSeverity = tivoliSeverity, severity = te.severity,
+            tivoliTag = tivoliTag, tivoliEmail = tivoliEmail, msg = te.message, jsonMsgType = jsonMsgType, functionName = te.functionName, err = "")
+        }
+        case ex: Exception => {
+          log("Exception: " + ex)
+          putException(appname = appName, sjson = "null", logWriter = logWriter, server = server, tivoliSeverity = tivoliSeverity,
+            severity = "e", tivoliTag = tivoliTag, tivoliEmail = tivoliEmail, msg = ex.getMessage(),
+            jsonMsgType = jsonMsgType, functionName = "run", err = ex.toString)
+        }
+      }
+    }
+
+    shutdown()
+    return ""
+  }
+
+  def shutdown(err: String = "") = {
+    log("Shutting down ticket consumer")
+    if (consumer != null) {
+      consumer.close()
+    }
+    if (err != "") {
+      //writeTivoliLog(appname = appName, logWriter = logWriter, server = server, tivoliSeverity = tivoliSeverity, tivoliTag = tivoliTag, tivoliEmailAddress = tivoliEmail, sev = "w", msg = err, err = err)
+      putException(appname = appName, sjson = "", logWriter = logWriter, server = server, tivoliSeverity = tivoliSeverity, severity = "w", tivoliTag = tivoliTag, tivoliEmail = tivoliEmail, msg = err, jsonMsgType = "", functionName = "shutdown", err = "")
+
+      log("Error in shutting down ticketConsumer, err: " + err)
+    }
+    closePWStream(logStream)
+    //close the exception log file
+    //logWriter.close()
+    spark.sparkContext.stop()
+    spark.stop()
+  }
+}
+
+object TicketConsumer extends App {
+
+  // Load config Yaml File
+  var configFilePath = "ticketConsumer.yaml"
+  val yaml = new Yaml(new CustomClassLoaderConstructor(classOf[TicketConsumerConfiguration].getClassLoader))
+  val inputStream = new FileInputStream(new File(configFilePath))
+  val tcConfig = yaml.loadAs(inputStream, classOf[TicketConsumerConfiguration])
+
+  // kafka
+  val isSecure = tcConfig.isSecure.toBoolean
+  var group = tcConfig.kafkaConfig.group + "ticket"
+  val topic = tcConfig.kafkaConfig.topic
+  var ttopic = tcConfig.dvcTriggerTopic
+  val env = tcConfig.env
+  val appName = tcConfig.appName
+  val randomConsumerGroupFlag = tcConfig.debug.toBoolean
+  val debug = tcConfig.debugLogging.toBoolean
+  if (randomConsumerGroupFlag == true)
+    group = group + scala.util.Random.nextInt //random suffix for testing
+
+  //Dynamo
+  val rowkey = tcConfig.rowkey
+  val ticketTable = tcConfig.ticketTable
+  val purgeLogTable = tcConfig.purgeLogTable
+  val ticketHistoryTable = tcConfig.ticketHistoryTable
+  val callbackTable = tcConfig.callbackTable
+  val callbackHistoryTable = tcConfig.callbackHistoryTable
+  val callTable = tcConfig.callTable
+  val callHistoryTable = tcConfig.callHistoryTable
+  val ticketBridgeTable = tcConfig.ticketBridgeTable
+  val objMapTable = tcConfig.objMapTable
+  val tktNumToKeyTable = tcConfig.tktNumToKeyTable
+
+  // log
+  val logPath = tcConfig.log.logPath
+  val logKeepDays = tcConfig.log.logPurgeDays.toInt
+  val exceptionLog = tcConfig.log.exceptionLog
+
+  // tivoli
+  val tivoliEmail = tcConfig.tivoliConfig.tivoliEmail
+  val tivoliTag = tcConfig.tivoliConfig.tivoliTag
+  val tivoliSeverity = tcConfig.tivoliConfig.tivoliSeverity
+
+  // s3
+  val s3PublishLogPath = tcConfig.s3Config.s3PublishLogPath
+  val s3Endpoint = tcConfig.s3Config.s3Endpoint
+
+  val dvcTriggerTopic = tcConfig.dvcTriggerTopic
+
+  var bSer = ""
+  var url = ""
+
+  env match {
+    case "dev" => {
+      bSer = tcConfig.devEnv.bootStrapServers
+      url = tcConfig.devEnv.dynamoUrl
+    }
+    case "qa" => {
+      bSer = tcConfig.qaEnv.bootStrapServers
+      url = tcConfig.qaEnv.dynamoUrl
+    }
+    case "prod" => {
+      bSer = tcConfig.prodEnv.bootStrapServers
+      url = tcConfig.prodEnv.dynamoUrl
+    }
+  }
+
+  println(s"dynamourl=$url, broker=$bSer, group=$group, topic=$topic, tivoliTag=$tivoliTag, tivoliEmail=$tivoliEmail, logKeepDays=$logKeepDays, debug=$debug, isSecure=$isSecure, tivoliSeverity=$tivoliSeverity")
+
+  val tc = new TicketConsumer(appName = appName, dynamoURL = url, bootstrapServers = bSer, groupId = group, topic = topic,
+    dvcTriggerTopic = dvcTriggerTopic, dbg = debug, secure = isSecure,
+    logWriterPath = logPath, exceptionLog = exceptionLog, logKeepDays = logKeepDays,
+    tivoliEmail = tivoliEmail, tivoliTag = tivoliTag, tivoliSeverity = tivoliSeverity,
+    s3PublishLogPath = s3PublishLogPath, s3Endpoint = s3Endpoint,
+    ticketTableP = ticketTable, purgeLogTableP = purgeLogTable, ticketHistoryTableP = ticketHistoryTable,
+    callbackTableP = callbackTable, callbackHistoryTableP = callbackHistoryTable, callTableP = callTable,
+    callHistoryTableP = callHistoryTable, ticketBridgeTableP = ticketBridgeTable, objMapTableP = objMapTable,
+    tktNumToKeyTableP = tktNumToKeyTable, rowkeyP = rowkey)
+  try {
+    val cmd = tc.run(1)
+    if (cmd == "SHUTDOWN") {
+      tc.shutdown(s"Received SHUTDOWN message in Kafka topic:" + topic)
+    }
+  } catch {
+    case w: WakeupException => {
+      println("Shutdown-hook engaged. Proceeding to shutdown. " + w)
+      tc.shutdown("Shutdown-hook engaged. Proceeding to shutdown. " + w.toString())
+    }
+    case e: Exception => {
+      println("Error encountered. Proceeding to shutdown. " + e)
+      tc.shutdown("Error encountered. Proceeding to shutdown. " + e.toString())
+    }
+  }
+}
